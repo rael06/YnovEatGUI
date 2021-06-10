@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ErrorMessageService } from './error-message.service';
+import { JwtService } from './jwt.service';
 
-describe('ErrorMessageService', () => {
-  let service: ErrorMessageService;
+describe('JwtService', () => {
+  let service: JwtService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ErrorMessageService);
+    service = TestBed.inject(JwtService);
   });
 
   it('should be created', () => {

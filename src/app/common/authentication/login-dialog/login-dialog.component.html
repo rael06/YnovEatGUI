@@ -18,7 +18,8 @@
 
         <div mat-dialog-actions>
             <button mat-button (click)="onNoClick()">Return</button>
-            <button mat-button [mat-dialog-close]="[data.username, data.password]">Log in</button> <!-- TODO: focus -->
+            <button mat-button [mat-dialog-close]="[data.username, data.password]" cdkFocusInitial>Log in</button>
+            <button mat-button [mat-dialog-close]="['register']">Register</button>
         </div>
 
     </form>
