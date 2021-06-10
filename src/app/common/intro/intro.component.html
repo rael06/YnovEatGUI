@@ -1,0 +1,8 @@
+<p>YE-13</p>
+
+<p>List of restaurants as picture/button/link</p>
+<div *ngFor="let restaurant of restaurants">
+    <a [routerLink]="['/customer/restaurant', restaurant.id]">
+        <img src="{{restaurant.picture}}">
+    </a>
+</div>
