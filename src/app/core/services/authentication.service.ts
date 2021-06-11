@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthResponse } from '../models/authResponse';
+import { RegisterResponse } from '../models/registerResponse';
 import { User } from '../models/user';
 import { ConstantsService } from './constants.service';
 import { JwtService } from './jwt.service';
@@ -12,10 +13,6 @@ import { JwtService } from './jwt.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  loginUrl: string;
-  registerUserUrl: string;
-  registerRestaurantAdminUrl: string;
 
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
@@ -38,20 +35,20 @@ export class AuthenticationService {
   public authenticateUser(username: string, password: string) {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    this.loginUrl = this._constantsService.loginUrl;
-    this._httpClient.post<AuthResponse>(this.loginUrl, { username, password}, { headers })
+    this._httpClient.post<AuthResponse>(this._constantsService.loginUrl, { username, password}, { headers })
       .subscribe({
         next: data => {
           if (data.token) {
             this.storeUserData(data.token);
             this._snackBar.open('You are now logged in', 'Close');
             // TODO: Navigate if role: restaurant
-            this._router.navigate(['/intro']).then();
+            if (this.userValue.role === 'SuperAdmin') {
+              this._router.navigate(['/back-office']).then();
+            }
           }
         },
         error: err => {
           this._snackBar.open(err.statusText, 'Close');
-          // this.openDialogLogIn();
           console.log(err)
         }
       });
@@ -60,8 +57,8 @@ export class AuthenticationService {
   public registerUser(user) {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    this.registerUserUrl = this._constantsService.loginUrl;
-    return this._httpClient.post<AuthResponse>(this.registerUserUrl, user, { headers })
+    // this.registerUserUrl = this._constantsService.loginUrl;
+    return this._httpClient.post<RegisterResponse>(this._constantsService.registerSuperAdmin, user, { headers })
       .pipe();
   }
 
@@ -71,6 +68,7 @@ export class AuthenticationService {
 
     const user = new User();
     user.username = userToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+    // TODO: use enum
     user.role = userToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     user.token = token;
 

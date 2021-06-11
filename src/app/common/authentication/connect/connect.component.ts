@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { JwtService } from 'src/app/core/services/jwt.service';
+import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 
@@ -32,7 +34,8 @@ export class ConnectComponent implements OnInit {
     private _router: Router,
     public dialog: MatDialog,
     private _authService: AuthenticationService,
-    private _jwtService: JwtService
+    private _validationService: ValidationService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -87,7 +90,7 @@ export class ConnectComponent implements OnInit {
     });
   }
 
-  onLoginSubmit() {
+  public onLoginSubmit(): void {
 
     const username = this.loginData[0];
     const password = this.loginData[1];
@@ -98,29 +101,35 @@ export class ConnectComponent implements OnInit {
   onRegisterSubmit(): boolean {
 
     const user = {
-      name: this.signUpData[0],
-      email: this.signUpData[1],
-      password: this.signUpData[2]
+      firstname: this.signUpData[0],
+      lastname: this.signUpData[1],
+      email: this.signUpData[2],
+      username: this.signUpData[2],
+      password: this.signUpData[3],
+
     };
 
-    // if (!this._validationService.validateRegister(user)) {
-    //   this.snackBar.open('Please fill in all details', 'Close');
-    //   return false;
-    // }
-    // if (!this.validateService.validateEmail(user.email)) {
-    //   this.snackBar.open('Please enter valid email', 'Close');
-    //   return false;
-    // }
+    if (!this._validationService.validateRegister(user)) {
+      this._snackBar.open('Please fill in all details', 'Close');
+      return false;
+    }
+    if (!this._validationService.validateEmail(user.email)) {
+      this._snackBar.open('Please enter valid email', 'Close');
+      return false;
+    }
     this._authService.registerUser(user).subscribe({
       next: data => {
-        if (data.token) {
-          // this.snackBar.open('You are now registered and can login', 'Close');
+        if (data.id) {
+          console.log(data)
+          this._snackBar.open('You are now registered and can login', 'Close');
           this.openDialogLogIn();
         }
       },
       error: err => {
-        this.openDialogSignUp();
         console.log(err);
+        let errorMsg = err.error.message || err.error.title || "Unknown error"
+        this._snackBar.open(errorMsg, 'Close')
+        this.openDialogSignUp();
       }
     });
     return true;

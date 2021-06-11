@@ -9,4 +9,6 @@ export class ConstantsService {
 
   loginUrl = this.baseUrl + "/api/Authentication/login"
 
+  registerSuperAdmin = this.baseUrl + "/api/Authentication/init-super-admin/SA-YE-pass-00"
+
 }
