@@ -1,3 +1,8 @@
 <span [ngClass]="visibility">
-    <button mat-raised-button (click)="openDialogLogIn()">Connect</button>
+    <span *ngIf="userLoggedIn" >
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <button mat-raised-button (click)="logOut()">Log out</button>
+    </span>
+    <button *ngIf="!userLoggedIn" mat-raised-button (click)="openDialogLogIn()">Connect</button>
 </span>

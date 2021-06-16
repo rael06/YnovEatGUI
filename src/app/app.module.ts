@@ -16,6 +16,7 @@ import { LoginDialogComponent } from './common/authentication/login-dialog/login
 import { RegisterDialogComponent } from './common/authentication/register-dialog/register-dialog.component';
 import { ConnectComponent } from './common/authentication/connect/connect.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     // MatFormFieldModule,
     MatSnackBarModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

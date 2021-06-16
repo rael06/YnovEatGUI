@@ -11,4 +11,8 @@ export class ConstantsService {
 
   registerSuperAdmin = this.baseUrl + "/api/Authentication/init-super-admin/SA-YE-pass-00"
 
+  registerCustomer = this.baseUrl + "/api/Authentication/register-customer"
+
+  registerRestaurantAdmin = this.baseUrl + "/api/Authentication/register-restaurantAdmin"
+
 }

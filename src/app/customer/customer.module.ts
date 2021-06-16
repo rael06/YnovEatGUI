@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomerMainComponent } from './customer-main/customer-main.component';
 import { CustomerRoutingModule } from './customer-routing.module';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
-    CustomerMainComponent
+    CustomerMainComponent,
+    CartComponent
   ],
   imports: [
     CommonModule,
