@@ -17,6 +17,14 @@ import { RegisterDialogComponent } from './common/authentication/register-dialog
 import { ConnectComponent } from './common/authentication/connect/connect.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { CardComponent } from './customer/card/card.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MainContentComponent } from './customer/main-content/main-content.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { DialogProductComponent } from './customer/dialog-product/dialog-product.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +32,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HeaderComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
-    ConnectComponent
+    ConnectComponent,
+    CardComponent,
+    MainContentComponent,
+    DialogProductComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +51,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     // MatFormFieldModule,
     MatSnackBarModule,
+    MatCardModule,
+    MatIconModule,
+    MatTabsModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

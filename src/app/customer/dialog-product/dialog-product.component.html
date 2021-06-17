@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+
+  <div mat-dialog-content class="img">
+    <img src={{data.image}}/>
+
+  </div>
+ <p>{{ data.description }}</p>
+  <div mat-dialog-actions class="btn">
+    <button mat-button (click)="onNoClick()">Annuler</button>
+    <button mat-button [mat-dialog-close]="data.title" cdkFocusInitial>Ajouter au panier</button>
+  </div>
+</div>

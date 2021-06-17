@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <mat-card class="example-card" (click)="onClick()">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ getTitre() }}</mat-card-title>
+      <mat-card-subtitle>Prix : 10€</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src={{image}}>
+    <mat-card-content>
+      <p>
+        {{ description }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-chip-list
+      class="example-chip"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)">
+        <mat-chip
+        class="example-box"
+        cdkDrag
+        *ngFor="let tag of tags">
+        {{tag.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-actions>
+  </mat-card>
+</div>
