@@ -1,3 +1,12 @@
 <span [ngClass]="visibility">
-    <button mat-raised-button (click)="openDialogLogIn()">Connect</button>
+    <span *ngIf="userLoggedIn" >
+        <span *ngIf="userRole==='Customer'">
+            <i class="fa fa-user headerIcon" aria-hidden="true"></i>
+            <button mat-icon-button class="headerIcon">
+                <mat-icon class="icon" inline=true>shopping_cart</mat-icon>
+            </button>
+        </span>
+        <button mat-raised-button (click)="logOut()">Log out</button>
+    </span>
+    <button *ngIf="!userLoggedIn" mat-raised-button (click)="openDialogLogIn()">Connect</button>
 </span>

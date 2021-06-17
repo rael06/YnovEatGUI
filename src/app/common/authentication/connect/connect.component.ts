@@ -21,24 +21,35 @@ export class ConnectComponent implements OnInit {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string
-
   password: string;
+  phoneNumber: string;
 
   visibility = 'visible';
+  registerRestaurant;
 
   loginData: string[];
   signUpData: number[];
+
+  userLoggedIn = false;
+  userRole;
 
   constructor(
     private _router: Router,
     public dialog: MatDialog,
     private _authService: AuthenticationService,
     private _validationService: ValidationService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    this.authService.user.subscribe( 
+      user => {
+        this.userLoggedIn = user ? true : false;
+        this.userRole = user?.role;
+        console.log('role: ', this.userRole)
+      }
+    )
   }
 
   openDialogLogIn(): void {
@@ -65,14 +76,14 @@ export class ConnectComponent implements OnInit {
   openDialogSignUp(): void {
 
     const dialogRef = this.dialog.open(RegisterDialogComponent, {
-      width: '350px',
-      height: '450px',
+      width: '400px',
+      height: '460px',
       data: {
         firstName: this.firstName,
         lastName: this.lastName,
-        email: this.email,
+        username: this.email,
         password: this.password,
-        phone: this.phone
+        phoneNumber: this.phoneNumber
       }
     });
 
@@ -106,8 +117,10 @@ export class ConnectComponent implements OnInit {
       email: this.signUpData[2],
       username: this.signUpData[2],
       password: this.signUpData[3],
-
+      phoneNumber: this.signUpData[4]
     };
+
+    this.registerRestaurant = this.signUpData[5]
 
     if (!this._validationService.validateRegister(user)) {
       this._snackBar.open('Please fill in all details', 'Close');
@@ -117,22 +130,26 @@ export class ConnectComponent implements OnInit {
       this._snackBar.open('Please enter valid email', 'Close');
       return false;
     }
-    this._authService.registerUser(user).subscribe({
+    this._authService.registerUser(user, this.registerRestaurant).subscribe({
       next: data => {
         if (data.id) {
-          console.log(data)
           this._snackBar.open('You are now registered and can login', 'Close');
           this.openDialogLogIn();
         }
       },
       error: err => {
-        console.log(err);
+        // TODO: better error handling
         let errorMsg = err.error.message || err.error.title || "Unknown error"
         this._snackBar.open(errorMsg, 'Close')
         this.openDialogSignUp();
       }
     });
     return true;
+  }
+
+  public logOut() {
+    this._authService.logout();
+    // TODO: add toast
   }
 
 }
