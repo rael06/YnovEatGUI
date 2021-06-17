@@ -1,2 +1,15 @@
+<app-tabs></app-tabs>
+
 <p>restaurant-info works!</p>
 <p>YE-26</p>
+
+<button>Edit</button>
+
+<div *ngIf="restaurantInfo">
+    <h1>{{restaurantInfo.name}}</h1>
+    <h2>{{restaurantInfo.city}}</h2>
+    <h2>Categories:</h2>
+    <h3 *ngFor="let category of restaurantInfo.restaurantCategories">{{category.name}}</h3>
+</div>
+
+
