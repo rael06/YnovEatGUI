@@ -54,7 +54,7 @@ import { DialogProductComponent } from './customer/dialog-product/dialog-product
     MatCardModule,
     MatIconModule,
     MatTabsModule,
-    MatChipsModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
