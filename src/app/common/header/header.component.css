@@ -6,3 +6,31 @@
 .hidden {
   visibility: hidden;
 }
+
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center;
+  background-color: #47ac9e;
+  color: #fff;
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.button
+{
+  width: 100px!important;
+  height: 100px;
+  font-size: 80px;
+  color: red;
+}
