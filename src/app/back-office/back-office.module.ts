@@ -5,13 +5,15 @@ import { BackOfficeRoutingModule } from './back-office-routing.module';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { ProductsComponent } from './products/products.component';
 import { OrdersComponent } from './orders/orders.component';
+import { TabsComponent } from './tabs/tabs.component';
 
 @NgModule({
   declarations: [
     BackOfficeMainComponent,
     RestaurantInfoComponent,
     ProductsComponent,
-    OrdersComponent
+    OrdersComponent,
+    TabsComponent
   ],
   imports: [
     CommonModule,

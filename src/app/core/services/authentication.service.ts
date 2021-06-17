@@ -38,9 +38,8 @@ export class AuthenticationService {
           if (data.token) {
             this.storeUserData(data.token);
             this._snackBar.open('You are now logged in', 'Close');
-            // TODO: Navigate if role: restaurant
             if (this.userValue.role === 'RestaurantAdmin') {
-              this._router.navigate(['/back-office']);
+              this._router.navigate(['/back-office/restaurant-info']);
             }
           }
         },
