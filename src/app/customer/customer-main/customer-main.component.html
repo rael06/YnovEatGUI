@@ -2,9 +2,19 @@
 <mat-tab-group class="tabGroup">
   <mat-tab label="Formule"> Formule </mat-tab>
   <mat-tab label="Plat">
-    <div class="card">
 
+    <div class="card">
+        <div  *ngFor="let item of productList">
+          <app-card
+          title={{item.title}}
+          price={{item.price}}
+          image={{item.image}}
+          description={{item.description}}
+          tags={{item.tag}}
+          image={{item.img}}></app-card>
+        </div>
     </div>
+
   </mat-tab>
   <mat-tab label="Entrée"> Entrée </mat-tab>
   <mat-tab label="Boisson"> Boisson </mat-tab>

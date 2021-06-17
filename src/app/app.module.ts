@@ -23,9 +23,8 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { CardComponent } from './customer/card/card.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MainContentComponent } from './customer/main-content/main-content.component';
+//import { CardComponent } from './customer/card/card.component';
+
 import { MatChipsModule } from '@angular/material/chips';
 import { DialogProductComponent } from './customer/dialog-product/dialog-product.component';
 
@@ -37,9 +36,8 @@ import { DialogProductComponent } from './customer/dialog-product/dialog-product
     LoginDialogComponent,
     RegisterDialogComponent,
     ConnectComponent,
-    CardComponent,
-    MainContentComponent,
-    DialogProductComponent
+    DialogProductComponent,
+    //CardComponent
   ],
   imports: [
     BrowserModule,
@@ -57,10 +55,8 @@ import { DialogProductComponent } from './customer/dialog-product/dialog-product
     MatSnackBarModule,
     MatCardModule,
     MatIconModule,
-    MatTabsModule,
 
     MatChipsModule,
-
     MatChipsModule,
     MatCheckboxModule
   ],

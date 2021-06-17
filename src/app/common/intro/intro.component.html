@@ -2,7 +2,7 @@
 
 <p>List of restaurants as picture/button/link</p>
 <div class="wrapper">
-  <div *ngFor="let restaurant of restaurants">
+  <div *ngFor="let restaurant of restaurants" (click)="onClick()">
       <!--<a [routerLink]="['/customer/restaurant', restaurant.id]">
           <img src="{{restaurant.picture}}">
       </a>-->
