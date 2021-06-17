@@ -1,11 +1,11 @@
 <div>
-    <a [routerLink]="['/back-office/orders']">
-        Orders
-    </a>
-    <a [routerLink]="['/back-office/products']">
-        Products
-    </a>
-    <a [routerLink]="['/back-office/restaurant-info']">
-        Restaurant info
-    </a>
+    <nav mat-tab-nav-bar>
+        <a mat-tab-link 
+            *ngFor="let link of navLinks"
+            [routerLink]="link.link"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            {{link.label}}
+        </a>
+    </nav>
 </div>

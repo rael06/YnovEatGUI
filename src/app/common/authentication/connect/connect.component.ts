@@ -47,7 +47,6 @@ export class ConnectComponent implements OnInit {
       user => {
         this.userLoggedIn = user ? true : false;
         this.userRole = user?.role;
-        console.log('role: ', this.userRole)
       }
     )
   }
@@ -149,7 +148,7 @@ export class ConnectComponent implements OnInit {
 
   public logOut() {
     this._authService.logout();
-    // TODO: add toast
+    this._snackBar.open('You are now logged out', 'Close')
   }
 
 }

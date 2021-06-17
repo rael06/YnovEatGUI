@@ -1,6 +1,3 @@
-<p>YE-13</p>
-
-<p>List of restaurants as picture/button/link</p>
 <div class="wrapper">
   <div *ngFor="let restaurant of restaurants">
       <!--<a [routerLink]="['/customer/restaurant', restaurant.id]">
@@ -11,7 +8,7 @@
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>{{ restaurant.name }}</mat-card-title>
-          <mat-card-subtitle>Prix : 10€</mat-card-subtitle>
+          <!-- <mat-card-subtitle>Prix : 10€</mat-card-subtitle> -->
         </mat-card-header>
         <a [routerLink]="['/customer/restaurant', restaurant.id]">
           <img mat-card-image src={{restaurant.picture}}>

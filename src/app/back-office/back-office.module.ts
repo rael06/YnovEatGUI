@@ -7,17 +7,22 @@ import { ProductsComponent } from './products/products.component';
 import { OrdersComponent } from './orders/orders.component';
 import { TabsComponent } from './tabs/tabs.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+
 @NgModule({
   declarations: [
     BackOfficeMainComponent,
     RestaurantInfoComponent,
     ProductsComponent,
     OrdersComponent,
-    TabsComponent
+    TabsComponent,
   ],
   imports: [
     CommonModule,
-    BackOfficeRoutingModule
+    BackOfficeRoutingModule,
+    MatToolbarModule,
+    MatTabsModule,
   ]
 })
 export class BackOfficeModule { }
