@@ -54,7 +54,7 @@ export class RestaurantInfoComponent implements OnInit {
   updateRestaurantInfo() {
     this.backOfficeService.patchRestaurantInfo(this.restaurantInfo).subscribe(data => {
       this.editForm = false;
-      alert("Restaurant updated");
+      this.getRestaurantInfo();
     });
   }
 
@@ -63,6 +63,15 @@ export class RestaurantInfoComponent implements OnInit {
       this.editForm = false;
       this.getRestaurantInfo();
     });
+  }
+
+  handleUpload(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.restaurantInfo.base64Image = reader.result.toString();
+    };
   }
 
   add() {

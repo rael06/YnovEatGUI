@@ -6,6 +6,14 @@
   type="button"
   (click)="editRestaurantInfo()">{{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}</button>
 <div *ngIf="isRestaurantCreated">
+  <div>
+    <input [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
+  </div>
+  <div>
+    <img [src]="restaurantInfo.base64Image" alt="logo" width="100px" height="100px"/>
+    <br />
+    <input  *ngIf="editForm" type="file" (change)="handleUpload($event)">
+  </div>
   <form>
     <div>
       <table class="table-bordered">
