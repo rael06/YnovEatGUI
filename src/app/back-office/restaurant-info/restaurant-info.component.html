@@ -43,7 +43,7 @@
     </div>
 
     <button class="btn btn-primary"
-            (click)="submit()"
+            (click)="updateRestaurantInfo()"
             [disabled]="!editForm">
       Submit
     </button>
@@ -56,7 +56,7 @@
     <label for="name">Restaurant's name</label>
     <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
     <button class="btn btn-primary"
-            (click)="submit()"
+            (click)="createRestaurant()"
             [disabled]="!editForm">
       Submit
     </button>

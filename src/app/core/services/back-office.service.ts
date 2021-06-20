@@ -28,4 +28,11 @@ export class BackOfficeService {
       .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, payload, { headers });
   }
 
+  createRestaurant(payload: RestaurantInfo): Observable<RestaurantInfo> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .post<RestaurantInfo>(this._constantsService.createRestaurant, payload, { headers });
+  }
+
 }

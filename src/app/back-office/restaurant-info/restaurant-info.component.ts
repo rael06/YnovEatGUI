@@ -24,7 +24,18 @@ export class RestaurantInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getRestaurantInfo();
+  }
 
+  deleteItem(index: number) {
+    this.restaurantInfo.weekOpeningTimes.splice(index, 1);
+  }
+
+  editRestaurantInfo() {
+    this.editForm = !this.editForm;
+  }
+
+  getRestaurantInfo() {
     this.backOfficeService.getRestaurantInfo()
       .subscribe(
         (data: RestaurantInfo) => {
@@ -38,29 +49,23 @@ export class RestaurantInfoComponent implements OnInit {
           }
         },
       );
-
   }
 
-  deleteItem(index: number) {
-    this.restaurantInfo.weekOpeningTimes.splice(index, 1);
-  }
-
-  editRestaurantInfo() {
-    this.editForm = !this.editForm;
-  }
-
-  submit() {
+  updateRestaurantInfo() {
     this.backOfficeService.patchRestaurantInfo(this.restaurantInfo).subscribe(data => {
-      this.editForm = !this.editForm;
+      this.editForm = false;
       alert("Restaurant updated");
+    });
+  }
+
+  createRestaurant() {
+    this.backOfficeService.createRestaurant(this.restaurantInfo).subscribe(data => {
+      this.editForm = false;
+      this.getRestaurantInfo();
     });
   }
 
   add() {
     this.restaurantInfo.weekOpeningTimes.push(new WeekOpeningTime());
-  }
-
-  createRestaurant() {
-
   }
 }

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConstantsService {
-  
+
   baseUrl = 'http://89.38.150.41:91';
 
   loginUrl = `${this.baseUrl}/api/Authentication/login`
@@ -18,6 +18,8 @@ export class ConstantsService {
   getRestaurantInfo = `${this.baseUrl}/api/Restaurant/get-mine`
 
   updateRestaurantInfo = `${this.baseUrl}/api/Restaurant/update`
+
+  createRestaurant = `${this.baseUrl}/api/Restaurant/create`
 
   getRestaurantProducts = `${this.baseUrl}/api/RestaurantProduct/get-all/{restaurantId}`
 
