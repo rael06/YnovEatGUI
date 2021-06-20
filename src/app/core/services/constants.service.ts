@@ -19,4 +19,6 @@ export class ConstantsService {
 
   updateRestaurantInfo = `${this.baseUrl}/api/Restaurant/update`
 
+  getRestaurantProducts = `${this.baseUrl}/api/RestaurantProduct/get-all/{restaurantId}`
+
 }
