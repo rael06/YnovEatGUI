@@ -20,7 +20,7 @@ export class RestaurantInfo implements Deserializable {
 
     isOpen: boolean;
     isPublished: boolean;
-    
+
     closingDates: ClosingDate[];
     weekOpeningTimes: WeekOpeningTime[];
     // TODO: We don't have categories anymore (for now)
@@ -57,10 +57,10 @@ export class WeekOpeningTime implements Deserializable {
     openingTimes: OpeningTime[];
 
     constructor() {
-        this.dayOfWeek = 0;
-        this.restaurantId = '';
-        this.openingTimes = new Array<OpeningTime>();
-        this.openingTimes.push(new OpeningTime())
+      this.dayOfWeek=0;
+      this.restaurantId='';
+      this.openingTimes = new Array<OpeningTime>();
+      this.openingTimes.push(new OpeningTime())
     }
 
     deserialize(input: any) {

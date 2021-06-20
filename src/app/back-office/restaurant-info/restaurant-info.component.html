@@ -1,66 +1,171 @@
 <app-tabs></app-tabs>
 
-<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()">{{ isRestaurantCreated ? 'Edit
-    restaurant info' : 'Create restaurant'}}</button>
+<button
+  mat-raised-button
+  color="primary"
+  type="button"
+  (click)="editRestaurantInfo()"
+  *ngIf="!editForm">
+  {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
+</button>
+
+<button 
+  mat-raised-button
+  color="primary"
+  type="button"
+  (click)="updateRestaurantInfo()"
+  *ngIf="editForm"
+  >
+  Save changes
+</button>
+
+<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="editForm">
+  Cancel
+</button>
+
 <div *ngIf="isRestaurantCreated">
-    <div>
-        <input [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
-    </div>
-    <div>
-        <img [src]="restaurantInfo.base64Image" alt="logo" width="100px" height="100px" />
-        <br />
-        <input *ngIf="editForm" type="file" (change)="handleUpload($event)">
-    </div>
-    <form>
-        <div>
-            <table class="table-bordered">
-                <tr>
-                    <th>dayOfWeek</th>
-                    <th>startTimeInMinutes</th>
-                    <th>endTimeInMinutes</th>
-                    <th *ngIf="editForm">Action</th>
-                </tr>
+  
+  <mat-form-field>
+    <mat-label>Restaurant name</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.name" name="name" type="text" [disabled]="!editForm">
+  </mat-form-field>
 
-                <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
-                    <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}"
-                                [disabled]="!editForm" type="number">
-                        </td>
+  <div>
+    <label>Photo</label>
+    <img *ngIf="restaurantInfo.base64Image; else noPhoto"
+      [src]="restaurantInfo.base64Image" alt="logo" width="100px" height="100px"/>
+    <ng-template #noPhoto>
+      <p *ngIf="!editForm">No photo yet</p>
+    </ng-template>
+    <br />
+    <input  *ngIf="editForm" type="file" (change)="handleUploadPhoto($event)">
+  </div>
 
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes"
-                                name="startTimeInMinutes-{{i}}" [disabled]="!editForm">
-                        </td>
+  <div>
+    <label>Logo</label>
+    <img *ngIf="restaurantInfo.base64Logo; else noLogo" [src]="restaurantInfo.base64Logo" alt="logo" width="100px"
+      height="100px" />
+    <ng-template #noLogo>
+      <p *ngIf="!editForm">No logo yet</p>
+    </ng-template>
+    <br />
+    <input *ngIf="editForm" type="file" (change)="handleUploadLogo($event)">
+  </div>
 
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes"
-                                name="endTimeInMinutes-{{i}}" [disabled]="!editForm">
-                        </td>
+  <mat-divider></mat-divider><br>
 
+  <h3>Contact:</h3>
 
+  <mat-form-field>
+    <mat-label>Phone number</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.phoneNumber" name="phoneNumber" type="tel" [disabled]="!editForm">
+  </mat-form-field><br>
 
-                        <td *ngIf="editForm">
-                            <button class="btn btn-secondary" (click)="deleteItem(i)">Delete Item</button>
-                        </td>
-                    </span>
-                </tr>
-            </table>
-        </div>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.email" name="email" type="email" [disabled]="!editForm">
+  </mat-form-field><br>
 
-        <button class="btn btn-primary" (click)="updateRestaurantInfo()" [disabled]="!editForm">
-            Submit
-        </button>
-        <button class="btn btn-secondary" (click)="add()" *ngIf="editForm">Add New Item</button>
-    </form>
+  <mat-form-field>
+    <mat-label>Street Number</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.streetNumber" name="streetNumber" type="number" [disabled]="!editForm">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Street Name</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.streetName" name="streetName" type="text" [disabled]="!editForm">
+  </mat-form-field><br>
+
+  <mat-form-field>
+    <mat-label>City</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.city" name="city" type="text" [disabled]="!editForm">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Zip Code</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.zipCode" name="zipCode" type="" [disabled]="!editForm">
+  </mat-form-field><br>
+
+  <mat-form-field>
+    <mat-label>addressExtraInformation</mat-label>
+    <input matInput [(ngModel)]="restaurantInfo.addressExtraInformation"
+      name="addressExtraInformation" type="text" [disabled]="!editForm">
+  </mat-form-field>
+
+  <mat-divider></mat-divider><br>
+
+  <span>
+    <mat-checkbox 
+      [(ngModel)]="restaurantInfo.isPublished" name="isPublished" [disabled]="!editForm">Restaurant is Published</mat-checkbox>
+  </span><br>
+
+  <h3>Dates when restaurant is closed</h3>
+  <mat-list *ngFor="let date of restaurantInfo.closingDates">
+    <mat-list-item>{{ date }}</mat-list-item>
+  </mat-list>
+
+  <div>
+    <table class="table-bordered">
+      <tr>
+        <th>dayOfWeek</th>
+        <th>startTimeInMinutes</th>
+        <th>endTimeInMinutes</th>
+        <th *ngIf="editForm">Action</th>
+      </tr>
+
+      <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
+          <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td>
+                <select [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm" >
+                  <option [ngValue]="0">Monday</option>
+                  <option [ngValue]="1">Tuesday</option>
+                  <option [ngValue]="2">Wednesday</option>
+                  <option [ngValue]="3">Thursday</option>
+                  <option [ngValue]="4">Friday</option>
+                  <option [ngValue]="5">Saturday</option>
+                  <option [ngValue]="6">Sunday</option>
+                </select>
+              </td>
+
+              <td>
+                <mat-form-field>
+                  <input matInput type="time"
+                          [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes" name="startTimeInMinutes-{{i}}"
+                          [disabled]="!editForm"
+                          placeholder="start time">
+                </mat-form-field>
+              </td>
+
+              <td>
+                <mat-form-field>
+                  <input matInput type="time"
+                          [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes" name="endTimeInMinutes-{{i}}"
+                          [disabled]="!editForm"
+                          placeholder="end time">
+                </mat-form-field>
+              </td>
+
+            <td *ngIf="editForm">
+              <button class="btn btn-secondary"
+                      (click)="deleteItem(i)"
+              >Delete Item</button>
+            </td>
+          </span>
+      </tr>
+    </table>
+  </div>
+
+  <button class="btn btn-secondary" (click)="add()" *ngIf="editForm">Add New Item</button>
 </div>
 
 <div *ngIf="!isRestaurantCreated && editForm">
-    <form>
-        <label for="name">Restaurant's name</label>
-        <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
-        <button class="btn btn-primary" (click)="createRestaurant()" [disabled]="!editForm">
-            Submit
-        </button>
-    </form>
+  <form>
+    <label for="name">Restaurant's name</label>
+    <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
+    <button class="btn btn-primary"
+            (click)="createRestaurant()"
+            [disabled]="!editForm">
+      Submit
+    </button>
+  </form>
 </div>

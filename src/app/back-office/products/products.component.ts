@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private backOfficeService: BackOfficeService
   ) {
+    // TODO: FIX RESTAUANT ID ERROR... (NOT WORKING AFTER LOGOUT / LOGIN AGAIN)
     this.backOfficeService.restaurantId.subscribe(
       (restaurantId) => {
         if (restaurantId) {

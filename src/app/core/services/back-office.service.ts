@@ -10,26 +10,14 @@ import { ConstantsService } from './constants.service';
 })
 export class BackOfficeService {
 
-  private restaurantIdSubject: BehaviorSubject<string>;
+  public restaurantIdSubject: BehaviorSubject<string>;
   public restaurantId: Observable<string>;
 
   constructor(
     private _constantsService: ConstantsService,
     private _httpClient: HttpClient
   ) {
-    const localStorageRestaurantId = JSON.parse(localStorage.getItem('restaurantId'));
-    this.restaurantIdSubject = new BehaviorSubject<string>(localStorageRestaurantId)
-    this.restaurantId = this.restaurantIdSubject.asObservable();
-    if (!localStorageRestaurantId) {
-      this.getRestaurantInfo().subscribe(
-        data => {
-          if (data.id) {
-            localStorage.setItem('restaurantId', JSON.stringify(data.id));
-            this.restaurantIdSubject.next(data.id);
-          }
-        }
-      )
-    } 
+    this.setRestaurantId();
   }
 
   getRestaurantInfo(): Observable<RestaurantInfo> {
@@ -54,6 +42,9 @@ export class BackOfficeService {
   }
 
   getAllRestaurantProducts(restaurantId: string): Observable<RestaurantProduct[]> {
+    if (!restaurantId) {
+      this.setRestaurantId();
+    }
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
     const url = `${this._constantsService.getAllRestaurantProducts}${restaurantId}`
@@ -82,5 +73,25 @@ export class BackOfficeService {
     return this._httpClient
       .patch<RestaurantProduct>(this._constantsService.restaurantProduct, product, { headers });
   }
-  
+
+  private setRestaurantId(): void {
+    const localStorageRestaurantId = JSON.parse(localStorage.getItem('restaurantId'));
+    this.restaurantIdSubject = new BehaviorSubject<string>(localStorageRestaurantId)
+    this.restaurantId = this.restaurantIdSubject.asObservable();
+    if (!localStorageRestaurantId) {
+      this.getRestaurantInfo().subscribe(
+        data => {
+          if (data.id) {
+            localStorage.setItem('restaurantId', JSON.stringify(data.id));
+            this.restaurantIdSubject.next(data.id);
+          }
+        }
+      )
+    }
+  }
+
+  public removeRestaurantID(): void {
+    this.restaurantIdSubject.next(null);
+  }
+
 }

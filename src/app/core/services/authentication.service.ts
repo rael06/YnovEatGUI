@@ -7,6 +7,7 @@ import { AuthResponse } from '../models/authResponse';
 import { RegisterResponse } from '../models/registerResponse';
 import { Role } from '../models/role.model';
 import { User } from '../models/user.model';
+// import { BackOfficeService } from './back-office.service';
 import { ConstantsService } from './constants.service';
 import { JwtService } from './jwt.service';
 
@@ -23,7 +24,8 @@ export class AuthenticationService {
     private _httpClient: HttpClient,
     private _constantsService: ConstantsService,
     private _jwtService: JwtService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    // private _backOfficeService: BackOfficeService ?? // TODO CYCLIC DEPENDENCY ERROR
   ) {
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
@@ -39,6 +41,7 @@ export class AuthenticationService {
             this.storeUserData(data.token);
             this._snackBar.open('You are now logged in', 'Close');
             if (this.userValue.role === 'RestaurantAdmin') {
+              // this._backOfficeService.setRestaurantId(); // TODO
               this._router.navigate(['/back-office/restaurant-info']);
             }
           }

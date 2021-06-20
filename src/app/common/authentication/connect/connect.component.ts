@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { JwtService } from 'src/app/core/services/jwt.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
@@ -39,7 +40,8 @@ export class ConnectComponent implements OnInit {
     private _authService: AuthenticationService,
     private _validationService: ValidationService,
     private _snackBar: MatSnackBar,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private _backOfficeService: BackOfficeService,
   ) { }
 
   ngOnInit(): void {
@@ -148,6 +150,8 @@ export class ConnectComponent implements OnInit {
 
   public logOut() {
     this._authService.logout();
+    localStorage.removeItem('restaurantId');
+    this._backOfficeService.removeRestaurantID();
     this._snackBar.open('You are now logged out', 'Close')
   }
 
