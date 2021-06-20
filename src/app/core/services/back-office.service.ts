@@ -32,6 +32,13 @@ export class BackOfficeService {
     } 
   }
 
+  createRestaurant(payload: RestaurantInfo): Observable<RestaurantInfo> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .post<RestaurantInfo>(this._constantsService.createRestaurant, payload, { headers });
+  }
+
   getRestaurantInfo(): Observable<RestaurantInfo> {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
@@ -43,7 +50,7 @@ export class BackOfficeService {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
     return this._httpClient
-      .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, { payload }, { headers });
+      .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, payload, { headers });
   }
 
   getAllRestaurantProducts(restaurantId: string): Observable<RestaurantProduct[]> {

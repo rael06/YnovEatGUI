@@ -56,6 +56,13 @@ export class WeekOpeningTime implements Deserializable {
     restaurantId: string;
     openingTimes: OpeningTime[];
 
+    constructor() {
+        this.dayOfWeek = 0;
+        this.restaurantId = '';
+        this.openingTimes = new Array<OpeningTime>();
+        this.openingTimes.push(new OpeningTime())
+    }
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

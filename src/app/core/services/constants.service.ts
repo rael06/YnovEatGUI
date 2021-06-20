@@ -17,6 +17,8 @@ export class ConstantsService {
 
   getRestaurantInfo = `${this.baseUrl}/api/Restaurant/get-mine`
 
+  createRestaurant = `${this.baseUrl}/api/Restaurant/create`
+
   updateRestaurantInfo = `${this.baseUrl}/api/Restaurant/update`
 
   getRestaurantProducts = `${this.baseUrl}/api/RestaurantProduct/get-all/`
