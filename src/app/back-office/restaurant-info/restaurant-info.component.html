@@ -39,11 +39,21 @@
                 </td>
 
                 <td>
-                  <input [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes" name="startTimeInMinutes-{{i}}" [disabled]="!editForm">
+                  <mat-form-field>
+                    <input matInput type="time"
+                           [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes" name="startTimeInMinutes-{{i}}"
+                           [disabled]="!editForm"
+                           placeholder="start time">
+                  </mat-form-field>
                 </td>
 
-                <td>
-                  <input [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes" name="endTimeInMinutes-{{i}}" [disabled]="!editForm">
+               <td>
+                  <mat-form-field>
+                    <input matInput type="time"
+                           [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes" name="endTimeInMinutes-{{i}}"
+                           [disabled]="!editForm"
+                           placeholder="end time">
+                  </mat-form-field>
                 </td>
 
 

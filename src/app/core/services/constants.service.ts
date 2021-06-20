@@ -13,7 +13,7 @@ export class ConstantsService {
 
   registerCustomer = `${this.baseUrl}/api/Authentication/register-customer`
 
-  registerRestaurantAdmin = `${this.baseUrl}/api/Authentication/register-restaurantAdmin`
+  registerRestaurantAdmin = `${this.baseUrl}/api/Authentication/register-restaurantOwner`
 
   getRestaurantInfo = `${this.baseUrl}/api/Restaurant/get-mine`
 
