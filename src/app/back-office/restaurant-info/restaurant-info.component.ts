@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray, NgForm } from '@angular/forms';
-
-import { OpeningTime, RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurantInfo';
+import { RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurantInfo';
 import { BackOfficeService } from 'src/app/core/services/back-office.service';
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-restaurant-info',
@@ -13,102 +12,55 @@ import { BackOfficeService } from 'src/app/core/services/back-office.service';
 })
 export class RestaurantInfoComponent implements OnInit {
 
-  restaurantForm: any;
-
   restaurantInfo: RestaurantInfo = new RestaurantInfo();
+
+  isRestaurantCreated: boolean = false;
 
   editForm = false;
 
-  
-
   constructor(
     private backOfficeService: BackOfficeService,
-    private _sanitizer: DomSanitizer,
-    private _formBuilder: FormBuilder
+    private _sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
-
-    this.restaurantForm = new FormGroup({
-      weekOpeningTimes: new FormArray([])
-    })
 
     this.backOfficeService.getRestaurantInfo()
       .subscribe(
         (data: RestaurantInfo) => {
           this.restaurantInfo = new RestaurantInfo().deserialize(data);
           console.log("info: ", this.restaurantInfo);
-          // this.imageBase64 = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-          //   + this.restaurantInfo.base64Image);
-
-          // this.restaurantForm.patchValue(this.restaurantInfo);
-          // this.restaurantForm.disable();
-          console.log(this.restaurantInfo?.weekOpeningTimes[0].openingTimes[0].startTimeInMinutes)
-
-          for (let x in this.restaurantInfo.weekOpeningTimes) {
-            console.log("x: ", this.restaurantInfo.weekOpeningTimes[x].id)
-            
-            this.restaurantForm.get('weekOpeningTimes').push(new FormGroup({
-              id: new FormControl(this.restaurantInfo.weekOpeningTimes[x].id),
-              dayOfWeek: new FormControl(this.restaurantInfo.weekOpeningTimes[x].dayOfWeek, [Validators.required]),
-              restaurantId: new FormControl(this.restaurantInfo.weekOpeningTimes[x].restaurantId),
-              openingTimes: new FormGroup({
-                startTimeInMinutes: new FormControl(this.restaurantInfo.weekOpeningTimes[x].openingTimes[0].startTimeInMinutes),
-                endTimeInMinutes: new FormControl(this.restaurantInfo.weekOpeningTimes[x].openingTimes[0].endTimeInMinutes)
-              })
-            }))
-
-            // if (data.weekOpeningTimes[x].openingTimes != []) {
-            //   this.restaurantForm.get(`openingTimes${x}`).push(new FormGroup({
-            //     startTimeInMinutes: new FormControl(data.weekOpeningTimes[x].openingTimes[0].startTimeInMinutes, [Validators.required]),
-            //     endTimeInMinutes: new FormControl(data.weekOpeningTimes[x].openingTimes[0].endTimeInMinutes, [Validators.required])
-            //   }))
-            // }
+          this.isRestaurantCreated = true;
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            console.log("Restaurant is not created")
           }
-
-          this.restaurantForm.disable();
-        }
+        },
       );
 
   }
 
-  onSubmit() {
-    console.log(this.restaurantForm)
+  deleteItem(index: number) {
+    this.restaurantInfo.weekOpeningTimes.splice(index, 1);
+  }
+
+  editRestaurantInfo() {
+    this.editForm = !this.editForm;
   }
 
   submit() {
-    console.log(this.restaurantForm)
+    this.backOfficeService.patchRestaurantInfo(this.restaurantInfo).subscribe(data => {
+      this.editForm = !this.editForm;
+      alert("Restaurant updated");
+    });
   }
 
   add() {
-    this.restaurantForm.get('weekOpeningTimes').push(new FormGroup({
-      dayOfWeek: new FormControl("", [Validators.required])
-    }))
+    this.restaurantInfo.weekOpeningTimes.push(new WeekOpeningTime());
   }
 
-  deleteItem(i: number) {
-    this.restaurantForm.get('weekOpeningTimes').removeAt(i);
+  createRestaurant() {
+
   }
-
-  track(item: any, index: number) {
-    return index;
-  }
-
-  track2(item: any, index: number) {
-    return index;
-  }
-
-
-  editRestaurantInfo() {
-    this.restaurantForm.enable();
-    this.editForm = true;
-  }
-
-  // submitForm() {
-  //   if (!this.restaurantForm.valid) {
-  //     return;
-  //   }
-  //   console.log(this.restaurantForm.value);
-  // }
-
 }

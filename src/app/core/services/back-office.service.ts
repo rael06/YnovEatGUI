@@ -25,7 +25,7 @@ export class BackOfficeService {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
     return this._httpClient
-      .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, { payload }, { headers });
+      .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, payload, { headers });
   }
-  
+
 }
