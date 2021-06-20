@@ -37,11 +37,16 @@
                         (click)="deleteItem(i)"
                         >Delete Item</button>
                 </td>
-                <span
+
+                <!-- <span
                     [formGroupName]="'openingTimes'"
                     *ngIf="restaurantInfo.weekOpeningTimes[x]?.openingTimes">
                     <td><input class="form-control" formControlName="startTimeInMinutes" placeholder="startTimeInMinutes"></td>
-                    <td><input class="form-control" formControlName="endTimeInMinutes" placeholder="startTimeInMinutes"></td>
+                    <td><input class="form-control" formControlName="endTimeInMinutes" placeholder="startTimeInMinutes"></td> -->
+
+                <span [formGroupName]="openingTimes">
+                    <td><input class="form-control" formControlName="openingTimes.startTimeInMinutes" placeholder="startTimeInMinutes"></td>
+                    <td><input class="form-control" formControlName="openingTimes.endTimeInMinutes" placeholder="startTimeInMinutes"></td>
                 </span>
                 
                 <!-- <span *ngFor="let x of restaurantForm.get('openingTimes0').controls;let j=index;trackBy:track2" [formGroupName]="j">
