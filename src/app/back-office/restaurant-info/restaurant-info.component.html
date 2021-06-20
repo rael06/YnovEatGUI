@@ -27,7 +27,15 @@
         <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
            <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
                 <td>
-                    <input [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm" type="number">
+                  <select [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm" >
+                    <option [ngValue]="0">Monday</option>
+                    <option [ngValue]="1">Tuesday</option>
+                    <option [ngValue]="2">Wednesday</option>
+                    <option [ngValue]="3">Thursday</option>
+                    <option [ngValue]="4">Friday</option>
+                    <option [ngValue]="5">Saturday</option>
+                    <option [ngValue]="6">Sunday</option>
+                  </select>
                 </td>
 
                 <td>
