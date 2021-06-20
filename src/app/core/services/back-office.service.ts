@@ -32,13 +32,6 @@ export class BackOfficeService {
     } 
   }
 
-  createRestaurant(payload: RestaurantInfo): Observable<RestaurantInfo> {
-    const headers = new HttpHeaders();
-    headers.append('Content-type', 'application/json');
-    return this._httpClient
-      .post<RestaurantInfo>(this._constantsService.createRestaurant, payload, { headers });
-  }
-
   getRestaurantInfo(): Observable<RestaurantInfo> {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
@@ -53,12 +46,41 @@ export class BackOfficeService {
       .patch<RestaurantInfo>(this._constantsService.updateRestaurantInfo, payload, { headers });
   }
 
+  createRestaurant(payload: RestaurantInfo): Observable<RestaurantInfo> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .post<RestaurantInfo>(this._constantsService.createRestaurant, payload, { headers });
+  }
+
   getAllRestaurantProducts(restaurantId: string): Observable<RestaurantProduct[]> {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    const url = `${this._constantsService.getRestaurantProducts}${restaurantId}`
+    const url = `${this._constantsService.getAllRestaurantProducts}${restaurantId}`
     return this._httpClient
       .get<RestaurantProduct[]>(url, { headers });
+  }
+
+  addRestaurantProduct(payload: RestaurantProduct): Observable<RestaurantProduct> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .post<RestaurantProduct>(this._constantsService.restaurantProduct, payload, { headers });
+  }
+
+  deleteRestaurantProduct(productId: string): Observable<RestaurantProduct> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    const url = `${this._constantsService.restaurantProduct}/${productId}`
+    return this._httpClient
+      .delete<RestaurantProduct>(url, { headers });
+  }
+
+  updateRestaurantProduct(product: RestaurantProduct): Observable<RestaurantProduct> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .patch<RestaurantProduct>(this._constantsService.restaurantProduct, product, { headers });
   }
   
 }

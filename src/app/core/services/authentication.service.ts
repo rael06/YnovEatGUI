@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthResponse } from '../models/authResponse';
 import { RegisterResponse } from '../models/registerResponse';
-import { Role } from '../models/role';
-import { User } from '../models/user';
+import { Role } from '../models/role.model';
+import { User } from '../models/user.model';
 import { ConstantsService } from './constants.service';
 import { JwtService } from './jwt.service';
 
