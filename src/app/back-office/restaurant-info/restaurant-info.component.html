@@ -1,13 +1,185 @@
 <app-tabs></app-tabs>
 
-<!-- <p>restaurant-info works!</p>
-<p>YE-26</p>
+<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()">Edit restaurant info</button>
 
-<button>Edit</button> -->
+<form class="form-group" [formGroup]="restaurantForm">
+    <div formArrayName="weekOpeningTimes">
+        <table class="table-bordered">
+            <tr>
+                <!-- <th>id</th> -->
+                <th>dayOfWeek</th>
+                <th *ngIf="editForm">Action</th>
+                <th>startTimeInMinutes</th>
+                <th>endTimeInMinutes</th>
+            </tr>
+            <tr *ngFor="let x of restaurantForm.get('weekOpeningTimes').controls;let i=index;trackBy:track"
+                [formGroupName]="i">
+                <td style="display: none;">
+                    <input 
+                        class="form-control"
+                        formControlName="id"
+                        placeholder="id">
+                </td>
+                <td>
+                    <input 
+                        class="form-control"
+                        formControlName="dayOfWeek"
+                        placeholder="dayOfWeek">
+                </td>
+                <td style="display: none;">
+                    <input 
+                        class="form-control"
+                        formControlName="restaurantId"
+                        placeholder="restaurantId">
+                </td>
+                <td *ngIf="editForm">
+                    <button class="btn btn-secondary"
+                        (click)="deleteItem(i)"
+                        >Delete Item</button>
+                </td>
+                <span
+                    [formGroupName]="'openingTimes'"
+                    *ngIf="restaurantInfo.weekOpeningTimes[x]?.openingTimes">
+                    <td><input class="form-control" formControlName="startTimeInMinutes" placeholder="startTimeInMinutes"></td>
+                    <td><input class="form-control" formControlName="endTimeInMinutes" placeholder="startTimeInMinutes"></td>
+                </span>
+                
+                <!-- <span *ngFor="let x of restaurantForm.get('openingTimes0').controls;let j=index;trackBy:track2" [formGroupName]="j">
+                    <td><input class="form-control" formControlName="dayOfWeek" placeholder="dayOfWeek"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </span> -->
+            </tr>
+        </table>
+    </div>
+    <!-- <button class="btn btn-primary" (click)="getMyData()">Refresh</button> -->
+    
+    <button class="btn btn-primary"
+        (click)="submit()"
+        [disabled]="restaurantForm.invalid || restaurantForm.disabled"
+        >
+        Submit
+    </button>
+    <button class="btn btn-secondary" (click)="add()" *ngIf="editForm">Add New Item</button>
+</form>
 
-<div *ngIf="restaurantInfo">
+<!-- <div>
+    <form (ngSubmit)="onSubmit()" #f="ngForm">
+
+        <mat-form-field class="form-field">
+            <mat-label>Name</mat-label>
+            <input matInput
+                [(ngModel)]="restaurantInfo.name"
+                name="restaurantInfo.name"
+                #restaurantInfo.name="ngModel">
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>E-mail</mat-label>
+            <input matInput
+                [(ngModel)]="restaurantInfo.email"
+                name="restaurantInfo.email"
+                #restaurantInfo.email="ngModel">
+        </mat-form-field><br>
+
+        <p>weekOpeningTimes</p>
+        <p *ngFor="let i for [1, 2, 3]">{{ i }}</p>
+        <mat-form-field class="form-field">
+            <mat-label>startTimeInMinutes</mat-label>
+            <input matInput >
+        </mat-form-field><br>
+
+        <button mat-raised-button color="primary" type="submit">Udate</button>
+
+    </form>
+</div> -->
+
+
+
+
+
+<!-- <app-tabs></app-tabs>
+
+<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()">Edit restaurant info</button>
+
+<div>
+    <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit2">
+
+        <mat-form-field class="form-field">
+            <mat-label>Name</mat-label>
+            <input 
+                matInput formControlName="name"
+                required>
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>E-mail</mat-label>
+            <input matInput [formControlName]="'email'" required>
+        </mat-form-field><br>
+
+        <p>weekOpeningTimes</p>
+        <mat-form-field
+            class="form-field"
+            *ngFor="let weekOpeningTimeControl of restaurantForm.get('weekOpeningTime').controls; let i = index"
+            >
+            <mat-label>startTimeInMinutes</mat-label>
+            <input matInput [formControlName]="i">
+        </mat-form-field><br>
+
+        <button mat-raised-button color="primary" type="submit">Udate</button>
+
+    </form>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="example-container">
+    <div class="form-container">
+        <form [formGroup]="restaurantForm" (submit)="submitForm()">
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> E-mail
+                </mat-label>
+                <input matInput formControlName="email" required>
+                <mat-error *ngIf="restaurantForm.controls.email.touched && restaurantForm.controls.email.invalid">
+                    <span *ngIf="restaurantForm.controls.email.errors.required">This field is mandatory.</span>
+                    <span *ngIf="restaurantForm.controls.email.errors.pattern">This field is invalid.</span>
+                </mat-error>
+            </mat-form-field><br>
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> Password
+                </mat-label>
+                <input matInput formControlName="password" type="password">
+                <mat-error *ngIf="restaurantForm.controls.password.touched && restaurantForm.controls.password.invalid">
+                    <span *ngIf="restaurantForm.controls.password.errors.required">This field is mandatory.</span>
+                </mat-error>
+            </mat-form-field><br>
+            <button mat-raised-button color="primary" type="submit">Log In</button>
+        </form>
+    </div>
+</div> -->
+
+<!-- <div *ngIf="restaurantInfo; else noRestaurant">
     <h1>Restaurant name: {{restaurantInfo.name}}</h1>
     <img [src]="imageBase64">
-</div>
+</div> -->
+
+<ng-template #noRestaurant>
+    No restaurant yet...<br>
+    <!-- <mat-form-field appearance="outline">
+        <mat-label>Restaurant name:</mat-label>
+        <input matInput placeholder="Restaurant name">
+    </mat-form-field> -->
+</ng-template>
+
+
 
 
