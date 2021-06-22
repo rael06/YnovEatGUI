@@ -7,9 +7,8 @@ import { BackOfficeService } from 'src/app/core/services/back-office.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
 
-  restaurantId: string
   restaurantProducts: RestaurantProduct[] = [];
   editForm = false;
   editFormArray: boolean[] = [];
@@ -19,28 +18,15 @@ export class ProductsComponent implements OnInit {
   constructor(
     private backOfficeService: BackOfficeService
   ) {
-    // TODO: FIX RESTAUANT ID ERROR... (NOT WORKING AFTER LOGOUT / LOGIN AGAIN)
-    this.backOfficeService.restaurantId.subscribe(
-      (restaurantId) => {
-        if (restaurantId) {
-          this.restaurantId = restaurantId;
-          this.getAllRestaurantProducts()
-        }
-      }
-      
-    )
-  }
-
-  ngOnInit(): void {
-    
+    this.getAllRestaurantProducts();
   }
 
   private getAllRestaurantProducts() {
-    this.backOfficeService.getAllRestaurantProducts(this.restaurantId).subscribe(
+    this.backOfficeService.getAllRestaurantProducts().subscribe(
       (data: RestaurantProduct[]) => {
         this.restaurantProducts = [];
         data.forEach(
-          (product, index) => {
+          product => {
             this.restaurantProducts.push(new RestaurantProduct().deserialize(product));
             this.editFormArray.push(false)
           }
@@ -72,7 +58,6 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteProduct(productId: string) {
-    // this.restaurantInfo.weekOpeningTimes.splice(index, 1);
     this.backOfficeService.deleteRestaurantProduct(productId).subscribe(
       data => {
         console.log(data);

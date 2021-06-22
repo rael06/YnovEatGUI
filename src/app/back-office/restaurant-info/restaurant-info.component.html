@@ -14,16 +14,18 @@
   color="primary"
   type="button"
   (click)="updateRestaurantInfo()"
-  *ngIf="editForm"
+  *ngIf="editForm && isRestaurantCreated"
   >
   Save changes
 </button>
 
-<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="editForm">
+<button mat-raised-button color="primary" type="button" (click)="cancelChanges()" *ngIf="editForm && isRestaurantCreated">
   Cancel
 </button>
 
 <div *ngIf="isRestaurantCreated">
+
+  <h3>Restaurant:</h3>
   
   <mat-form-field>
     <mat-label>Restaurant name</mat-label>
@@ -31,28 +33,51 @@
   </mat-form-field>
 
   <div>
-    <label>Photo</label>
+    <label>Photo</label><br>
     <img *ngIf="restaurantInfo.base64Image; else noPhoto"
       [src]="restaurantInfo.base64Image" alt="logo" width="100px" height="100px"/>
     <ng-template #noPhoto>
       <p *ngIf="!editForm">No photo yet</p>
     </ng-template>
     <br />
-    <input  *ngIf="editForm" type="file" (change)="handleUploadPhoto($event)">
+    <!-- // TODO: UPLOAD BUTTON MIGHT LOOK NICER -->
+    <input *ngIf="editForm" type="file" (change)="uploadImg($event, 'photo')">
+    <button mat-raised-button color="primary" type="button" (click)="removeImg('photo')"
+      *ngIf="editForm && isRestaurantCreated && restaurantInfo.base64Image != ''">
+      Remove
+    </button>
   </div>
 
   <div>
-    <label>Logo</label>
+    <label>Logo</label><br>
     <img *ngIf="restaurantInfo.base64Logo; else noLogo" [src]="restaurantInfo.base64Logo" alt="logo" width="100px"
       height="100px" />
     <ng-template #noLogo>
       <p *ngIf="!editForm">No logo yet</p>
     </ng-template>
     <br />
-    <input *ngIf="editForm" type="file" (change)="handleUploadLogo($event)">
+    <input *ngIf="editForm" type="file" (change)="uploadImg($event, 'logo')">
+    <button mat-raised-button color="primary" type="button" (click)="removeImg('logo')"
+      *ngIf="editForm && isRestaurantCreated && restaurantInfo.base64Logo != ''">
+      Remove
+    </button>
   </div>
 
   <mat-divider></mat-divider><br>
+
+  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
+    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
+  </button>
+  
+  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
+    *ngIf="editForm && isRestaurantCreated">
+    Save changes
+  </button>
+  
+  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
+    *ngIf="editForm && isRestaurantCreated">
+    Cancel
+  </button>
 
   <h3>Contact:</h3>
 
@@ -68,7 +93,7 @@
 
   <mat-form-field>
     <mat-label>Street Number</mat-label>
-    <input matInput [(ngModel)]="restaurantInfo.streetNumber" name="streetNumber" type="number" [disabled]="!editForm">
+    <input matInput [(ngModel)]="restaurantInfo.streetNumber" name="streetNumber" type="text" [disabled]="!editForm">
   </mat-form-field>
 
   <mat-form-field>
@@ -87,82 +112,169 @@
   </mat-form-field><br>
 
   <mat-form-field>
-    <mat-label>addressExtraInformation</mat-label>
+    <mat-label>Address Extra Information</mat-label>
     <input matInput [(ngModel)]="restaurantInfo.addressExtraInformation"
       name="addressExtraInformation" type="text" [disabled]="!editForm">
   </mat-form-field>
 
   <mat-divider></mat-divider><br>
 
+  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
+    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
+  </button>
+  
+  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
+    *ngIf="editForm && isRestaurantCreated">
+    Save changes
+  </button>
+
+  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
+    *ngIf="editForm && isRestaurantCreated">
+    Cancel
+  </button><br>
+
   <span>
-    <mat-checkbox 
-      [(ngModel)]="restaurantInfo.isPublished" name="isPublished" [disabled]="!editForm">Restaurant is Published</mat-checkbox>
+    <mat-checkbox [(ngModel)]="restaurantInfo.isPublished" name="isPublished" [disabled]="!editForm">
+      Restaurant is Published
+    </mat-checkbox>
   </span><br>
 
-  <h3>Dates when restaurant is closed</h3>
-  <mat-list *ngFor="let date of restaurantInfo.closingDates">
-    <mat-list-item>{{ date }}</mat-list-item>
-  </mat-list>
+  <span>
+    <mat-checkbox [(ngModel)]="restaurantInfo.isOpen" name="isOpen" [disabled]="!editForm">
+      Restaurant is temporary closed
+    </mat-checkbox>
+  </span><br><br>
 
-  <div>
-    <table class="table-bordered">
-      <tr>
-        <th>dayOfWeek</th>
-        <th>startTimeInMinutes</th>
-        <th>endTimeInMinutes</th>
-        <th *ngIf="editForm">Action</th>
-      </tr>
+  <h3>Dates when restaurant is closed:</h3>
 
+  <p *ngIf="noClosingDatesInFuture">No closing dates scheduled</p><br>
+
+  <div *ngFor="let date of restaurantInfo.closingDates; let i = index">
+
+    <!-- TODO: FIX TIMEZONE ISSUE -->
+    <span *ngIf="!checkIfInPast(date.closingDateTime)">
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput 
+          [matDatepicker]="picker"
+          [matDatepickerFilter]="notEarlierThanTodayFilter"
+          [(ngModel)]="date.closingDateTime"
+          name="closingDateTime-{{i}}"
+          [disabled]="!editForm"
+          >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button
+        color="primary"
+        type="button" 
+        (click)="deleteClosingDate(i)"
+        *ngIf="editForm">
+        Delete Item
+      </button>
+    </span>
+
+  </div>
+
+  <button mat-raised-button
+    color="primary"
+    type="button"
+    (click)="addClosingDate()"
+    *ngIf="editForm">
+    Add new date
+  </button>
+
+  <h3>Open & taking orders time:</h3>
+
+    <button mat-raised-button color="primary" type="button"
+      (click)="addWeekOpeningTime()" *ngIf="editForm">
+      Add New Hour Information
+    </button>
+
+    <!-- TODO: VALIDATION -> EVERY DAY SELECTED MAX ONES -->
+
+    <table> 
       <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
           <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
-              <td>
-                <select [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm" >
-                  <option [ngValue]="0">Monday</option>
-                  <option [ngValue]="1">Tuesday</option>
-                  <option [ngValue]="2">Wednesday</option>
-                  <option [ngValue]="3">Thursday</option>
-                  <option [ngValue]="4">Friday</option>
-                  <option [ngValue]="5">Saturday</option>
-                  <option [ngValue]="6">Sunday</option>
-                </select>
+              <td  *ngIf="weekOpeningTimes.openingTimes.length > 0">
+                <mat-form-field>
+                  <mat-label>Day of a week</mat-label>
+                  <mat-select [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm">
+                    <mat-option [value]="1">Monday</mat-option>
+                    <mat-option [value]="2">Tuesday</mat-option>
+                    <mat-option [value]="3">Wednesday</mat-option>
+                    <mat-option [value]="4">Thursday</mat-option>
+                    <mat-option [value]="5">Friday</mat-option>
+                    <mat-option [value]="6">Saturday</mat-option>
+                    <mat-option [value]="0">Sunday</mat-option>
+                  </mat-select>
+                </mat-form-field>
               </td>
 
-              <td>
+              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
                 <mat-form-field>
                   <input matInput type="time"
                           [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes" name="startTimeInMinutes-{{i}}"
                           [disabled]="!editForm"
-                          placeholder="start time">
+                          placeholder="Restaurant opens">
                 </mat-form-field>
               </td>
 
-              <td>
+              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
                 <mat-form-field>
                   <input matInput type="time"
                           [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes" name="endTimeInMinutes-{{i}}"
                           [disabled]="!editForm"
-                          placeholder="end time">
+                          placeholder="Restaurant closes">
                 </mat-form-field>
               </td>
 
-            <td *ngIf="editForm">
-              <button class="btn btn-secondary"
-                      (click)="deleteItem(i)"
-              >Delete Item</button>
-            </td>
+              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+                <mat-form-field>
+                  <input matInput type="time" [(ngModel)]="weekOpeningTimes.openingTimes[0].startOrderTimeInMinutes"
+                    name="startOrderTimeInMinutes-{{i}}" [disabled]="!editForm" placeholder="Order start time">
+                </mat-form-field>
+              </td>
+              
+              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+                <mat-form-field>
+                  <input matInput type="time" [(ngModel)]="weekOpeningTimes.openingTimes[0].endOrderTimeInMinutes"
+                    name="endOrderTimeInMinutes-{{i}}" [disabled]="!editForm" placeholder="Order end time">
+                </mat-form-field>
+              </td>
+
+              <td *ngIf="weekOpeningTimes.openingTimes.length > 0 && editForm">
+                <button mat-raised-button color="primary" type="button"
+                        (click)="deleteWeekOpeningTime(i)"
+                >Delete Item</button>
+              </td>
           </span>
       </tr>
     </table>
-  </div>
 
-  <button class="btn btn-secondary" (click)="add()" *ngIf="editForm">Add New Item</button>
+  
+
+  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
+    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
+  </button>
+  
+  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
+    *ngIf="editForm && isRestaurantCreated">
+    Save changes
+  </button>
+  
+  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
+    *ngIf="editForm && isRestaurantCreated">
+    Cancel
+  </button><br>
 </div>
 
 <div *ngIf="!isRestaurantCreated && editForm">
   <form>
     <label for="name">Restaurant's name</label>
-    <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
-    <button class="btn btn-primary"
+    <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm" required>
+    <button mat-raised-button color="primary" type="submit"
             (click)="createRestaurant()"
             [disabled]="!editForm">
       Submit

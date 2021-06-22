@@ -32,7 +32,9 @@ export class ConnectComponent implements OnInit {
   signUpData: number[];
 
   userLoggedIn = false;
-  userRole;
+  userRole; // TODO: USE ENUM!
+
+  restaurantId: string;
 
   constructor(
     private _router: Router,
@@ -150,8 +152,6 @@ export class ConnectComponent implements OnInit {
 
   public logOut() {
     this._authService.logout();
-    localStorage.removeItem('restaurantId');
-    this._backOfficeService.removeRestaurantID();
     this._snackBar.open('You are now logged out', 'Close')
   }
 

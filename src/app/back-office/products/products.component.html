@@ -1,10 +1,19 @@
 <app-tabs></app-tabs>
 
-<button class="btn btn-secondary" (click)="openAddNewProduct()">Add new product</button>
+<button mat-raised-button color="primary" type="button"
+    *ngIf="!addingNewProduct"
+    (click)="openAddNewProduct()">
+    Add new product
+</button>
 
-<div *ngIf="restaurantProducts.length == 0 || addingNewProduct">
-    <form>
-        
+<!-- TODO: CLEAN INPUTS AFTER SUBMIT -->
+
+<!-- TODO: ADD SNACK MSG AFTER ALL ACTIONS + CONFIGURE SNACK (CLOSE TIME) -->
+
+<div *ngIf="addingNewProduct">
+    
+    <form>   
+    
         <mat-form-field>
             <mat-label>name</mat-label>
             <input matInput [(ngModel)]="newProduct.name" placeholder="Product name" class="form-control"
@@ -15,20 +24,24 @@
             <mat-label>price</mat-label>
             <input matInput [(ngModel)]="newProduct.price" placeholder="Product price" class="form-control"
                 name="price" type="number">
-        </mat-form-field>
+        </mat-form-field><br>
 
-        <button mat-button (click)="addProduct()">Add new product</button>
+        <button mat-raised-button color="primary" type="button" (click)="addProduct()">Add new product</button>
 
     </form>
+
 </div>
 
-<!-- <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()">{{ isRestaurantCreated ? 'Edit
-    restaurant info' : 'Create restaurant'}}</button> -->
 <div *ngIf="restaurantProducts.length > 0">
-    <p>Product list</p>
+    
+    <p>Products list:</p>
+    
     <form>
+        
         <span *ngFor="let product of restaurantProducts; let i = index">
+            
             <span>
+                
                 <mat-form-field>
                     <mat-label>name</mat-label>
                     <input matInput [(ngModel)]="product.name" placeholder="Product name" class="form-control" name="name-{{i}}"
@@ -48,77 +61,9 @@
                 <mat-divider></mat-divider>
 
             </span><br>
+
         </span>
+
     </form>
-</div>
 
-
-
-
-
-
-<!-- 
-    <div>
-        <input [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
-    </div>
-    <div>
-        <img [src]="restaurantInfo.base64Image" alt="logo" width="100px" height="100px" />
-        <br />
-        <input *ngIf="editForm" type="file" (change)="handleUpload($event)">
-    </div>
-    
-        <div>
-            <table class="table-bordered">
-                <tr>
-                    <th>dayOfWeek</th>
-                    <th>startTimeInMinutes</th>
-                    <th>endTimeInMinutes</th>
-                    <th *ngIf="editForm">Action</th>
-                </tr>
-
-                <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
-                    <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}"
-                                [disabled]="!editForm" type="number">
-                        </td>
-
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes"
-                                name="startTimeInMinutes-{{i}}" [disabled]="!editForm">
-                        </td>
-
-                        <td>
-                            <input [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes"
-                                name="endTimeInMinutes-{{i}}" [disabled]="!editForm">
-                        </td>
-
-
-
-                        <td *ngIf="editForm">
-                            <button class="btn btn-secondary" (click)="deleteItem(i)">Delete Item</button>
-                        </td>
-                    </span>
-                </tr>
-            </table>
-        </div>
-
-        <button class="btn btn-primary" (click)="updateRestaurantInfo()" [disabled]="!editForm">
-            Submit
-        </button>
-        <button class="btn btn-secondary" (click)="add()" *ngIf="editForm">Add New Item</button>
-    </form> -->
-
-
-<!-- <div *ngIf="!isRestaurantCreated && editForm">
-    <form>
-        <label for="name">Restaurant's name</label>
-        <input id="name" [(ngModel)]="restaurantInfo.name" name="name" [disabled]="!editForm">
-        <button class="btn btn-primary" (click)="createRestaurant()" [disabled]="!editForm">
-            Submit
-        </button>
-    </form>
-</div> -->
-<div *ngIf="restaurantProducts == []">
-    <p>nothing</p>
 </div>

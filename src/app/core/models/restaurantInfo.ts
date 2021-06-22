@@ -18,7 +18,7 @@ export class RestaurantInfo implements Deserializable {
     base64Image: string;
     base64Logo: string;
 
-    isOpen: boolean;
+    isOpen: boolean; // TODO: What is that?
     isPublished: boolean;
 
     closingDates: ClosingDate[];
@@ -40,9 +40,12 @@ export class RestaurantInfo implements Deserializable {
 }
 
 export class ClosingDate implements Deserializable {
-    id: string;
-    closingDateTime: string;
-    restaurantId: string;
+    closingDateTime: Date;
+
+    // TODO: OUT?
+    constructor() {
+        this.closingDateTime = new Date();
+    }
 
     deserialize(input: any) {
         Object.assign(this, input);

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurantInfo';
+import { ClosingDate, RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurantInfo';
 import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { HttpErrorResponse } from "@angular/common/http";
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-restaurant-info',
@@ -13,10 +14,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 export class RestaurantInfoComponent implements OnInit {
 
   restaurantInfo: RestaurantInfo = new RestaurantInfo();
-
   isRestaurantCreated: boolean = false;
-
   editForm = false;
+  noClosingDatesInFuture: boolean;
 
   constructor(
     private backOfficeService: BackOfficeService,
@@ -27,14 +27,6 @@ export class RestaurantInfoComponent implements OnInit {
     this.getRestaurantInfo();
   }
 
-  deleteItem(index: number) {
-    this.restaurantInfo.weekOpeningTimes.splice(index, 1);
-  }
-
-  editRestaurantInfo() {
-    this.editForm = !this.editForm;
-  }
-
   getRestaurantInfo() {
     this.backOfficeService.getRestaurantInfo()
       .subscribe(
@@ -42,6 +34,8 @@ export class RestaurantInfoComponent implements OnInit {
           this.restaurantInfo = new RestaurantInfo().deserialize(data);
           console.log("info: ", this.restaurantInfo);
           this.isRestaurantCreated = true;
+          this.noClosingDatesInFuture = this.checkIfNoClosingDatesInTheFuture();
+          console.log("tutej: ", this.noClosingDatesInFuture)
         },
         (error: HttpErrorResponse) => {
           if (error.status === 404) {
@@ -65,25 +59,78 @@ export class RestaurantInfoComponent implements OnInit {
     });
   }
 
-  handleUploadPhoto(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.restaurantInfo.base64Image = reader.result.toString();
-    };
+  notEarlierThanTodayFilter = (date: Date | null): boolean => {
+    const today = new Date();
+    return date >= today;
   }
 
-  handleUploadLogo(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.restaurantInfo.base64Logo = reader.result.toString();
-    };
+  checkIfInPast(d: Date): boolean {
+    const date = new Date(d).setHours(0, 0, 0, 0);
+    const today = new Date().setHours(0, 0, 0, 0);
+    return date < today;
   }
 
-  add() {
+  // Don't display dates in the past
+  checkIfNoClosingDatesInTheFuture(): boolean {
+    let noDateInFuture = true;
+    this.restaurantInfo.closingDates.forEach(
+      date => {
+        if (new Date(date.closingDateTime) > new Date()) {
+          noDateInFuture = false;
+        }
+      }
+    );
+    return noDateInFuture;
+  }
+
+  // button handlers
+
+  editRestaurantInfo() {
+    this.editForm = !this.editForm;
+  }
+
+  cancelChanges() {
+    this.editForm = !this.editForm;
+    this.getRestaurantInfo();
+  }
+
+  addClosingDate() {
+    // let dateToAdd = new ClosingDate();
+    // dateToAdd.closingDateTime = new Date(date);
+    this.restaurantInfo.closingDates.push(new ClosingDate());
+  }
+
+  deleteClosingDate(index: number) {
+    this.restaurantInfo.closingDates.splice(index, 1);
+  }
+
+  addWeekOpeningTime() {
     this.restaurantInfo.weekOpeningTimes.push(new WeekOpeningTime());
+  }
+
+  deleteWeekOpeningTime(index: number) {
+    this.restaurantInfo.weekOpeningTimes.splice(index, 1);
+  }
+
+  uploadImg(event: Event, imgType: string) {
+    console.log("event: ", typeof (event.constructor.name))
+    const file = event.target['files'][0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (imgType == 'photo') {
+        this.restaurantInfo.base64Image = reader.result.toString();
+      } else {
+        this.restaurantInfo.base64Logo = reader.result.toString();
+      }
+    };
+  }
+
+  removeImg(imgType: string) {
+    if (imgType == 'photo') {
+      this.restaurantInfo.base64Image = "";
+    } else {
+      this.restaurantInfo.base64Logo = "";
+    }
   }
 }
