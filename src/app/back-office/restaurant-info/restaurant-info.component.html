@@ -197,7 +197,7 @@
     <table> 
       <tr *ngFor="let weekOpeningTimes of restaurantInfo.weekOpeningTimes; let i = index">
           <span *ngIf="weekOpeningTimes.openingTimes.length > 0">
-              <td  *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td >
                 <mat-form-field>
                   <mat-label>Day of a week</mat-label>
                   <mat-select [(ngModel)]="weekOpeningTimes.dayOfWeek" name="dayOfWeek-{{i}}" [disabled]="!editForm">
@@ -212,7 +212,7 @@
                 </mat-form-field>
               </td>
 
-              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td>
                 <mat-form-field>
                   <input matInput type="time"
                           [(ngModel)]="weekOpeningTimes.openingTimes[0].startTimeInMinutes" name="startTimeInMinutes-{{i}}"
@@ -221,7 +221,7 @@
                 </mat-form-field>
               </td>
 
-              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td>
                 <mat-form-field>
                   <input matInput type="time"
                           [(ngModel)]="weekOpeningTimes.openingTimes[0].endTimeInMinutes" name="endTimeInMinutes-{{i}}"
@@ -230,21 +230,21 @@
                 </mat-form-field>
               </td>
 
-              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td>
                 <mat-form-field>
                   <input matInput type="time" [(ngModel)]="weekOpeningTimes.openingTimes[0].startOrderTimeInMinutes"
                     name="startOrderTimeInMinutes-{{i}}" [disabled]="!editForm" placeholder="Order start time">
                 </mat-form-field>
               </td>
               
-              <td *ngIf="weekOpeningTimes.openingTimes.length > 0">
+              <td>
                 <mat-form-field>
                   <input matInput type="time" [(ngModel)]="weekOpeningTimes.openingTimes[0].endOrderTimeInMinutes"
                     name="endOrderTimeInMinutes-{{i}}" [disabled]="!editForm" placeholder="Order end time">
                 </mat-form-field>
               </td>
 
-              <td *ngIf="weekOpeningTimes.openingTimes.length > 0 && editForm">
+              <td *ngIf="editForm">
                 <button mat-raised-button color="primary" type="button"
                         (click)="deleteWeekOpeningTime(i)"
                 >Delete Item</button>
@@ -252,8 +252,6 @@
           </span>
       </tr>
     </table>
-
-  
 
   <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
     {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}

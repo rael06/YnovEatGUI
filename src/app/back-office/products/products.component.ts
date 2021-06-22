@@ -57,6 +57,7 @@ export class ProductsComponent {
     );
   }
 
+  // TODO: DIALOG FOR DELETE CONFIRMATION
   deleteProduct(productId: string) {
     this.backOfficeService.deleteRestaurantProduct(productId).subscribe(
       data => {

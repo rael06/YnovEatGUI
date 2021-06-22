@@ -32,10 +32,8 @@ export class RestaurantInfoComponent implements OnInit {
       .subscribe(
         (data: RestaurantInfo) => {
           this.restaurantInfo = new RestaurantInfo().deserialize(data);
-          console.log("info: ", this.restaurantInfo);
           this.isRestaurantCreated = true;
           this.noClosingDatesInFuture = this.checkIfNoClosingDatesInTheFuture();
-          console.log("tutej: ", this.noClosingDatesInFuture)
         },
         (error: HttpErrorResponse) => {
           if (error.status === 404) {
@@ -113,7 +111,6 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   uploadImg(event: Event, imgType: string) {
-    console.log("event: ", typeof (event.constructor.name))
     const file = event.target['files'][0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
