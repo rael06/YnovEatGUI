@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intro',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./intro.component.css']
 })
 export class IntroComponent implements OnInit {
+
+  //route = new Router;
 
   restaurants = [
     {
@@ -26,6 +29,12 @@ export class IntroComponent implements OnInit {
   ]
 
   constructor() { }
+
+  onClick()
+  {
+    console.log("click");
+
+  }
 
   ngOnInit(): void {
   }
