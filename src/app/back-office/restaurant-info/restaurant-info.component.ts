@@ -68,7 +68,6 @@ export class RestaurantInfoComponent implements OnInit {
     return date < today;
   }
 
-  // Don't display dates in the past
   checkIfNoClosingDatesInTheFuture(): boolean {
     let noDateInFuture = true;
     this.restaurantInfo.closingDates.forEach(

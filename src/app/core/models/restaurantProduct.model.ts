@@ -6,9 +6,9 @@ export class RestaurantProduct implements Deserializable {
     name: string;
     description: string;
     price: number;
+    image: string;
     isActive: boolean;
-    creationDateTime: string; // TODO: change to Date
-    expirationDateTime: string;
+    expirationDateTime: Date;
     restaurantId: string;
     productFamily: number
 

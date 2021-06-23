@@ -1,9 +1,8 @@
 <app-tabs></app-tabs>
 
 <button mat-raised-button color="primary" type="button"
-    *ngIf="!addingNewProduct"
-    (click)="openAddNewProduct()">
-    Add new product
+    (click)="toggleAddNewProduct()">
+    {{ addingNewProduct ? 'Cancel' : 'Add new product'}}
 </button>
 
 <!-- TODO: CLEAN INPUTS AFTER SUBMIT -->
@@ -15,8 +14,31 @@
     <form>   
 
         <!-- TODO: DISABLED IF RESTAURANT NOT CREATED, OR MAYBE IN GUARD -->
-        <button mat-raised-button color="primary" type="button" (click)="addProduct()">Add new product</button><br>
-    
+
+        <!-- <span *ngIf="newProduct.image">
+            <label>Photo</label><br>
+            <img [src]="newProduct.image" alt="Product photo" />
+            <ng-template #noPhoto>
+                        <p *ngIf="!editForm">No photo yet</p>
+                    </ng-template>
+        </span> -->
+
+        <div>
+            <label>Photo</label><br>
+            <img *ngIf="newProduct.image; else noPhoto" [src]="newProduct.image"
+                alt="Product image" />
+            <ng-template #noPhoto>
+                <img alt="Deafault image" src="assets/meal.png">
+            </ng-template>
+            <br />
+            <input type="file" (change)="uploadImg($event, newProduct)">
+            <button mat-raised-button color="primary" type="button"
+                (click)="removeImg(newProduct)"
+                *ngIf="newProduct.image != ''">
+                Remove
+            </button>
+        </div>
+        
         <mat-form-field>
             <mat-label>name</mat-label>
             <input matInput [(ngModel)]="newProduct.name" placeholder="Product name" class="form-control"
@@ -29,9 +51,11 @@
                 name="price" type="number">
         </mat-form-field><br>
 
-        <mat-checkbox [(ngModel)]="newProduct.isActive" name="isActive">
-            Product is active
-        </mat-checkbox>
+        <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput [(ngModel)]="newProduct.description" placeholder="Product description" class="form-control" name="description"
+                type="textarea"></textarea>
+        </mat-form-field><br>
 
         <mat-form-field>
             <mat-label>Cathegory</mat-label>
@@ -46,6 +70,13 @@
                 <mat-option [value]="7">Other</mat-option>
             </mat-select>
         </mat-form-field><br>
+
+        <mat-checkbox [(ngModel)]="newProduct.isActive" name="isActive">
+            Product is active
+        </mat-checkbox><br>
+
+        <button mat-raised-button color="primary" type="button"
+            (click)="addProduct()">Add product</button><br>
 
     </form>
 
@@ -62,50 +93,91 @@
     <form>
         
         <span *ngFor="let product of restaurantProducts; let i = index">
+
+            <mat-card>
             
-            <span style="display: flex; flex-wrap: wrap">
-                
-                <mat-form-field>
-                    <mat-label>name</mat-label>
-                    <input matInput [(ngModel)]="product.name" placeholder="Product name" class="form-control" name="name-{{i}}"
-                        [disabled]="!editFormArray[i]" type="string">
-                </mat-form-field>
-                
-                <mat-form-field>
-                    <mat-label>price</mat-label>
-                    <input matInput [(ngModel)]="product.price" placeholder="Product price" class="form-control" name="price-{{i}}"
-                        [disabled]="!editFormArray[i]" type="number">
-                </mat-form-field>
+            <span style="display: flex; flex-direction: row;">
 
-                <mat-checkbox [(ngModel)]="product.isActive" placeholder="Product price"
-                    class="form-control" name="isActive-{{i}}" [disabled]="!editFormArray[i]">
-                    Product is active
-                </mat-checkbox>
-
-                <!-- TODO: FIX BINDING (ALL MAIN...) -->
-                <mat-form-field>
-                    <mat-label>Cathegory</mat-label>
-                    <mat-select [(ngModel)]="product.productFamily" name="productFamily" [disabled]="!editFormArray[i]">
-                        <mat-option [value]="0">Starter</mat-option>
-                        <mat-option [value]="1">Main</mat-option>
-                        <mat-option [value]="2">Dessert</mat-option>
-                        <mat-option [value]="3">Drink</mat-option>
-                        <mat-option [value]="4">Menu</mat-option>
-                        <mat-option [value]="5">Sandwich</mat-option>
-                        <mat-option [value]="6">Daily</mat-option>
-                        <mat-option [value]="7">Other</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                
                 <div>
-                    <button mat-button (click)="deleteProduct(product.id)" *ngIf="!editFormArray[i]">Delete Product</button>
-                    <button mat-button (click)="openUpdateProduct(i)" *ngIf="!editFormArray[i]">Edit Product</button>
-                    <button mat-button (click)="updateProduct(product, i)" *ngIf="editFormArray[i]">Save Product</button>
+
+                    <!-- <span *ngIf="product.image">
+                        <label>Photo</label><br>
+                        <img [src]="product.image" alt="Product image" />
+                        <ng-template #noPhoto>
+                                                    <p *ngIf="!editForm">No photo yet</p>
+                                                </ng-template>
+                    </span> -->
+
+                    <div>
+                        <label>Photo</label><br>
+                        <img *ngIf="product.image; else noPhoto" [src]="product.image" alt="Product image" />
+                        <ng-template #noPhoto>
+                            <img alt="Default image" src="assets/meal.png">
+                        </ng-template>
+                        <br />
+                        <input *ngIf="editFormArray[i]" type="file" (change)="uploadImg($event, product)"><br>
+                        <button mat-raised-button color="primary" type="button"
+                            (click)="removeImg(product)"
+                            *ngIf="product.image != null && editFormArray[i]">
+                            Remove
+                        </button>
+                    </div>
+
+                </div>
+
+                <div> 
+                                 
+                    <mat-form-field>
+                        <mat-label>name</mat-label>
+                        <input matInput [(ngModel)]="product.name" placeholder="Product name" class="form-control" name="name-{{i}}"
+                            [disabled]="!editFormArray[i]" type="string">
+                    </mat-form-field>
+                    
+                    <mat-form-field>
+                        <mat-label>price</mat-label>
+                        <input matInput [(ngModel)]="product.price" placeholder="Product price" class="form-control" name="price-{{i}}"
+                            [disabled]="!editFormArray[i]" type="number">
+                    </mat-form-field>
+
+                    <!-- TODO: FIX BINDING (ALL MAIN...) -->
+                    <mat-form-field>
+                        <mat-label>Cathegory</mat-label>
+                        <mat-select [(ngModel)]="product.productFamily" name="productFamily" [disabled]="!editFormArray[i]">
+                            <mat-option [value]="0">Starter</mat-option>
+                            <mat-option [value]="1">Main</mat-option>
+                            <mat-option [value]="2">Dessert</mat-option>
+                            <mat-option [value]="3">Drink</mat-option>
+                            <mat-option [value]="4">Menu</mat-option>
+                            <mat-option [value]="5">Sandwich</mat-option>
+                            <mat-option [value]="6">Daily</mat-option>
+                            <mat-option [value]="7">Other</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-checkbox [(ngModel)]="product.isActive" placeholder="Product price" class="form-control" name="isActive-{{i}}"
+                        [disabled]="!editFormArray[i]">
+                        Product is active
+                    </mat-checkbox>
+                    
+                    <div>
+                        <button mat-raised-button color="primary" (click)="deleteProduct(product.id)" *ngIf="!editFormArray[i]">Delete Product</button>
+                        <button mat-raised-button color="primary" (click)="openUpdateProduct(i)" *ngIf="!editFormArray[i]">Edit Product</button>
+                        <button mat-raised-button color="primary" (click)="updateProduct(product, i)" *ngIf="editFormArray[i]">Save Product</button>
+                    </div>
+
                 </div>
 
             </span>
 
-            <mat-divider></mat-divider><br>
+            <mat-form-field class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput [(ngModel)]="newProduct.description" placeholder="Product description" class="form-control"
+                    name="description" type="textarea"></textarea>
+            </mat-form-field><br>
+
+            </mat-card>
+
+            <br><mat-divider></mat-divider><br>
 
         </span>
 

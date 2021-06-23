@@ -1,3 +1,5 @@
+<!-- https://material.angular.io/components/button-toggle/overview -->
+
 <div style="display: flex; justify-content: space-evenly">
   <span *ngFor="let cathegory of cathegoriesPresence" style="flex-direction: row; ">
     <button mat-button type="button" *ngIf="cathegory.present" (click)="setIndex(cathegory.index)">{{ cathegory.name }}</button>
@@ -6,5 +8,18 @@
 </div>
 
 <div *ngFor="let product of productList">
-  <p *ngIf="index == 8 || index == product.productFamily">{{ product.name }}</p>
+  <mat-card *ngIf="(index == 8 || index == product.productFamily) && product.isActive" class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ product.name }}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="product.image">
+    <mat-card-content>
+      <p>{{ product.description }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <span>Price: {{ product.price }}€</span>
+      <button mat-button>Add to cart</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

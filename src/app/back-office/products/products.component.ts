@@ -39,8 +39,8 @@ export class ProductsComponent {
     )
   }
 
-  openAddNewProduct() {
-    this.addingNewProduct = true;
+  toggleAddNewProduct() {
+    this.addingNewProduct = !this.addingNewProduct;
   }
 
   openUpdateProduct(index: number) {
@@ -75,6 +75,19 @@ export class ProductsComponent {
         this.editFormArray[index] = false; 
       }
     )
+  }
+
+  uploadImg(event: Event, product: RestaurantProduct) {
+    const file = event.target['files'][0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => product.image = reader.result.toString();
+  }
+
+  removeImg(product: RestaurantProduct) {
+    console.log("img1: ", product.image)
+    product.image = "";
+    console.log("img2: ", product.image)
   }
 
 }

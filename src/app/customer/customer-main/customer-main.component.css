@@ -10,3 +10,14 @@
 .tabGroup {
   margin: 1% 1% 0 1%;
 }
+
+.example-card {
+  max-width: 400px;
+}
+
+img {
+  width: 200px; /* width of container */
+  height: 200px; /* height of container */
+  object-fit: cover;
+  /* border: 1px solid black; */
+}
