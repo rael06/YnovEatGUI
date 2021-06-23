@@ -65,20 +65,6 @@
 
   <mat-divider></mat-divider><br>
 
-  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
-    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
-  </button>
-  
-  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
-    *ngIf="editForm && isRestaurantCreated">
-    Save changes
-  </button>
-  
-  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
-    *ngIf="editForm && isRestaurantCreated">
-    Cancel
-  </button>
-
   <h3>Contact:</h3>
 
   <mat-form-field>
@@ -123,20 +109,6 @@
   </mat-form-field>
 
   <mat-divider></mat-divider><br>
-
-  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
-    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
-  </button>
-  
-  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
-    *ngIf="editForm && isRestaurantCreated">
-    Save changes
-  </button>
-
-  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
-    *ngIf="editForm && isRestaurantCreated">
-    Cancel
-  </button><br>
 
   <span>
     <mat-checkbox [(ngModel)]="restaurantInfo.isPublic" name="isPublic" [disabled]="!editForm">
@@ -257,20 +229,6 @@
           </span>
       </tr>
     </table>
-
-  <button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
-    {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
-  </button>
-  
-  <button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
-    *ngIf="editForm && isRestaurantCreated">
-    Save changes
-  </button>
-  
-  <button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
-    *ngIf="editForm && isRestaurantCreated">
-    Cancel
-  </button><br>
 </div>
 
 <div *ngIf="!isRestaurantCreated && editForm">

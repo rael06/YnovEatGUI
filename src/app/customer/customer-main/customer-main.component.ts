@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerProduct } from 'src/app/core/models/customerProduct.model';
 import { CustomerService } from 'src/app/core/services/customer.service';
 
@@ -9,16 +9,28 @@ import { CustomerService } from 'src/app/core/services/customer.service';
   styleUrls: ['./customer-main.component.css']
 })
 export class CustomerMainComponent implements OnInit {
+
+  // TODO: HIDE CATEGORY IF NO PRODUCT
+  cathegoriesPresence = [
+    { name: "Starter", index: 0, present: false},
+    { name: "Main", index: 1, present: false},
+    { name: "Dessert", index: 2, present: false},
+    { name: "Drink", index: 3, present: false},
+    { name: "Menu", index: 4, present: false},
+    { name: "Sandwich", index: 5, present: false},
+    { name: "Daily", index: 6, present: false},
+    { name: "Other", index: 7, present: false}
+  ]
   
   restaurantId: string;
-  productList: CustomerProduct[];
+  productList: CustomerProduct[] = [];
   selectedProducts: CustomerProduct[];
-
-  //public produtList:{id:number, title:string, price:string, img:string, description:string, tag:string}[] = DataJson;
+  index = 0;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _customerService: CustomerService
+    private _customerService: CustomerService,
+    private _router: Router
   ) {
     // TODO: OUT; https://www.tektutorialshub.com/angular/angular-passing-parameters-to-route/
     // Snapshot vs observable...
@@ -27,15 +39,34 @@ export class CustomerMainComponent implements OnInit {
 
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(params => {
-      this.restaurantId = params.get('id');
-      this._customerService.getRestaurantProducts().subscribe(
+      // this.restaurantId = params.get('id');
+      this._customerService.getRestaurantProducts(params.get('id')).subscribe(
         (data: CustomerProduct[]) => {
-          data.forEach(product => this.productList.push(new CustomerProduct().deserialize(product)));
-        }
-      )
+          data.forEach(product => {
+            this.productList.push(new CustomerProduct().deserialize(product));
+            this.cathegoriesPresence.forEach(
+              cathegory => {
+                if (cathegory.index == product.productFamily) {
+                  cathegory.present = true;
+                }
+              }
+            )
+          }
+          // this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
+        )}
+      );
+      console.log(this.productList)
     });
+  }
 
+  setIndex(index: number) {
+    this.index = index;
+  }
 
+  getIndex($event) {
+    console.log($event.index)
+    this.index = $event.index
+    this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
   }
 
 }

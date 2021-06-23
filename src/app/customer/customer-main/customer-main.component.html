@@ -1,24 +1,10 @@
-<p>Restaurant ID: {{restaurantId}}</p>
-<mat-tab-group class="tabGroup">
-  <mat-tab label="Formule"> Formule </mat-tab>
-  <mat-tab label="Plat">
+<div style="display: flex; justify-content: space-evenly">
+  <span *ngFor="let cathegory of cathegoriesPresence" style="flex-direction: row; ">
+    <button mat-button type="button" *ngIf="cathegory.present" (click)="setIndex(cathegory.index)">{{ cathegory.name }}</button>
+  </span>
+  <button mat-button type="button" (click)="setIndex(8)">All</button>
+</div>
 
-    <div class="card">
-        <div  *ngFor="let item of productList">
-          <app-card
-          title={{item.title}}
-          price={{item.price}}
-          image={{item.image}}
-          description={{item.description}}
-          tags={{item.tag}}
-          image={{item.img}}></app-card>
-        </div>
-    </div>
-
-  </mat-tab>
-  <mat-tab label="Entrée"> Entrée </mat-tab>
-  <mat-tab label="Boisson"> Boisson </mat-tab>
-  <mat-tab label="Dessert"> Dessert </mat-tab>
-</mat-tab-group>
-
-<p>YE-16</p>
+<div *ngFor="let product of productList">
+  <p *ngIf="index == 8 || index == product.productFamily">{{ product.name }}</p>
+</div>

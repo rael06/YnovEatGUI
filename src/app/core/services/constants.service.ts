@@ -22,7 +22,7 @@ export class ConstantsService {
   restaurantProduct = `${this.baseUrl}/api/RestaurantProduct`;
 
   // Customer Products
-  getRestaurantProducts = `${this.baseUrl}/api/customerProduct`;
+  getRestaurantProducts = `${this.baseUrl}/api/customerProduct/get-all`;
 
   // Customer Restaurants
   getAllRestaurants = `${this.baseUrl}/api/customer/get-all-restaurants`;

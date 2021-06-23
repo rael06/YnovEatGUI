@@ -25,10 +25,10 @@ export class CustomerService {
       .get<CustomerRestaurantInfo[]>(url, { headers });
   }
 
-  getRestaurantProducts(): Observable<CustomerProduct[]> {
+  getRestaurantProducts(restaurantId: string): Observable<CustomerProduct[]> {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    const url = `${this._constantsService.getRestaurantProducts}`
+    const url = `${this._constantsService.getRestaurantProducts}/${restaurantId}`;
     return this._httpClient
       .get<CustomerProduct[]>(url, { headers });
   }

@@ -13,6 +13,9 @@
 <div *ngIf="addingNewProduct">
     
     <form>   
+
+        <!-- TODO: DISABLED IF RESTAURANT NOT CREATED, OR MAYBE IN GUARD -->
+        <button mat-raised-button color="primary" type="button" (click)="addProduct()">Add new product</button><br>
     
         <mat-form-field>
             <mat-label>name</mat-label>
@@ -26,11 +29,31 @@
                 name="price" type="number">
         </mat-form-field><br>
 
-        <button mat-raised-button color="primary" type="button" (click)="addProduct()">Add new product</button>
+        <mat-checkbox [(ngModel)]="newProduct.isActive" name="isActive">
+            Product is active
+        </mat-checkbox>
+
+        <mat-form-field>
+            <mat-label>Cathegory</mat-label>
+            <mat-select [(ngModel)]="newProduct.productFamily" name="productFamily">
+                <mat-option [value]="0">Starter</mat-option>
+                <mat-option [value]="1">Main</mat-option>
+                <mat-option [value]="2">Dessert</mat-option>
+                <mat-option [value]="3">Drink</mat-option>
+                <mat-option [value]="4">Menu</mat-option>
+                <mat-option [value]="5">Sandwich</mat-option>
+                <mat-option [value]="6">Daily</mat-option>
+                <mat-option [value]="7">Other</mat-option>
+            </mat-select>
+        </mat-form-field><br>
 
     </form>
 
+    <mat-divider></mat-divider>
+
 </div>
+
+
 
 <div *ngIf="restaurantProducts.length > 0">
     
@@ -40,7 +63,7 @@
         
         <span *ngFor="let product of restaurantProducts; let i = index">
             
-            <span>
+            <span style="display: flex; flex-wrap: wrap">
                 
                 <mat-form-field>
                     <mat-label>name</mat-label>
@@ -53,14 +76,36 @@
                     <input matInput [(ngModel)]="product.price" placeholder="Product price" class="form-control" name="price-{{i}}"
                         [disabled]="!editFormArray[i]" type="number">
                 </mat-form-field>
+
+                <mat-checkbox [(ngModel)]="product.isActive" placeholder="Product price"
+                    class="form-control" name="isActive-{{i}}" [disabled]="!editFormArray[i]">
+                    Product is active
+                </mat-checkbox>
+
+                <!-- TODO: FIX BINDING (ALL MAIN...) -->
+                <mat-form-field>
+                    <mat-label>Cathegory</mat-label>
+                    <mat-select [(ngModel)]="product.productFamily" name="productFamily" [disabled]="!editFormArray[i]">
+                        <mat-option [value]="0">Starter</mat-option>
+                        <mat-option [value]="1">Main</mat-option>
+                        <mat-option [value]="2">Dessert</mat-option>
+                        <mat-option [value]="3">Drink</mat-option>
+                        <mat-option [value]="4">Menu</mat-option>
+                        <mat-option [value]="5">Sandwich</mat-option>
+                        <mat-option [value]="6">Daily</mat-option>
+                        <mat-option [value]="7">Other</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 
-                <button mat-button (click)="deleteProduct(product.id)" *ngIf="!editFormArray[i]">Delete Product</button>
-                <button mat-button (click)="openUpdateProduct(i)" *ngIf="!editFormArray[i]">Edit Product</button>
-                <button mat-button (click)="updateProduct(product, i)" *ngIf="editFormArray[i]">Save Product</button>
+                <div>
+                    <button mat-button (click)="deleteProduct(product.id)" *ngIf="!editFormArray[i]">Delete Product</button>
+                    <button mat-button (click)="openUpdateProduct(i)" *ngIf="!editFormArray[i]">Edit Product</button>
+                    <button mat-button (click)="updateProduct(product, i)" *ngIf="editFormArray[i]">Save Product</button>
+                </div>
 
-                <mat-divider></mat-divider>
+            </span>
 
-            </span><br>
+            <mat-divider></mat-divider><br>
 
         </span>
 

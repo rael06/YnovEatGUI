@@ -9,6 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { CartComponent } from './cart/cart.component';
 import { CardComponent } from './card/card.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CardComponent } from './card/card.component';
     CustomerRoutingModule,
     MatTabsModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonModule,
   ]
 })
 export class CustomerModule { }
