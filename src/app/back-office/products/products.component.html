@@ -142,7 +142,7 @@
                     <!-- TODO: FIX BINDING (ALL MAIN...) -->
                     <mat-form-field>
                         <mat-label>Cathegory</mat-label>
-                        <mat-select [(ngModel)]="product.productFamily" name="productFamily" [disabled]="!editFormArray[i]">
+                        <mat-select [(ngModel)]="product.productFamily" name="productFamily-{{i}}" [disabled]="!editFormArray[i]">
                             <mat-option [value]="0">Starter</mat-option>
                             <mat-option [value]="1">Main</mat-option>
                             <mat-option [value]="2">Dessert</mat-option>
@@ -176,8 +176,6 @@
             </mat-form-field><br>
 
             </mat-card>
-
-            <br><mat-divider></mat-divider><br>
 
         </span>
 
