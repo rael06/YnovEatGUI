@@ -1,42 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { CustomerRestaurantInfo } from 'src/app/core/models/customer-restaurant-info.model';
+import { CustomerService } from 'src/app/core/services/customer.service';
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.css']
 })
-export class IntroComponent implements OnInit {
+export class IntroComponent {
 
-  //route = new Router;
+  restaurants: CustomerRestaurantInfo[] = [];
 
-  restaurants = [
-    {
-      id: 1,
-      name: "restaurant 1",
-      picture: "https://www.vintageindustrialstyle.com/wp-content/uploads/2017/09/Industrial-Design-Style-Find-Out-This-Bar-Restaurant-in-Poland-2.jpg"
-    },
-    {
-      id: 2,
-      name: "restaurant 2",
-      picture: "https://www.vintageindustrialstyle.com/wp-content/uploads/2017/09/Industrial-Design-Style-Find-Out-This-Bar-Restaurant-in-Poland-2.jpg"
-    },
-    {
-      id: 3,
-      name: "restaurant 3",
-      picture: "https://www.vintageindustrialstyle.com/wp-content/uploads/2017/09/Industrial-Design-Style-Find-Out-This-Bar-Restaurant-in-Poland-2.jpg"
-    }
-  ]
-
-  constructor() { }
-
-  onClick()
-  {
-    console.log("click");
-
+  constructor(
+    private _customerService: CustomerService
+  ) {
+    this.getAllRestaurantS();
   }
 
-  ngOnInit(): void {
+  private getAllRestaurantS() {
+    this._customerService.getAllRestaurants().subscribe(
+      (data: CustomerRestaurantInfo[]) => {
+        this.restaurants = [];
+        data.forEach(
+          restaurant => this.restaurants.push(new CustomerRestaurantInfo().deserialize(restaurant))      
+        );
+      }
+    )
   }
 
 }

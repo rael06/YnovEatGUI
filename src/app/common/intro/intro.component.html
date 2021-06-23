@@ -1,39 +1,13 @@
 <div class="wrapper">
-  <div *ngFor="let restaurant of restaurants" (click)="onClick()">
-      <!--<a [routerLink]="['/customer/restaurant', restaurant.id]">
-          <img src="{{restaurant.picture}}">
-      </a>-->
-
-      <mat-card class="example-card">
+  <div *ngFor="let restaurant of restaurants; let i = index">
+    <a [routerLink]="['/customer/restaurant', restaurant.id]">
+      <!-- TODO: REMOVE NGIF => restaurant has to have photo! -->
+      <mat-card class="example-card" *ngIf="restaurant.base64Image"> 
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>{{ restaurant.name }}</mat-card-title>
-
-          <!-- <mat-card-subtitle>Prix : 10€</mat-card-subtitle> -->
-          
         </mat-card-header>
-        <a [routerLink]="['/customer/restaurant', restaurant.id]">
-          <img mat-card-image src={{restaurant.picture}}>
-        </a>
-        <!--<mat-card-content>
-          <p>
-            {{ description }}
-          </p>
-        </mat-card-content>-->
-        <!--<mat-card-actions>
-          <mat-chip-list
-          class="example-chip"
-          cdkDropList
-          cdkDropListOrientation="horizontal"
-          (cdkDropListDropped)="drop($event)">
-            <mat-chip
-            class="example-box"
-            cdkDrag
-            *ngFor="let tag of tags">
-            {{tag.name}}
-            </mat-chip>
-          </mat-chip-list>
-        </mat-card-actions>-->
+          <img mat-card-image [src]="restaurant.base64Image">
       </mat-card>
+    </a>
   </div>
 </div>

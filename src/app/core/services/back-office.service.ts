@@ -39,9 +39,8 @@ export class BackOfficeService {
   getAllRestaurantProducts(): Observable<RestaurantProduct[]> {
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    const url = `${this._constantsService.getAllRestaurantProducts}`
     return this._httpClient
-      .get<RestaurantProduct[]>(url, { headers });
+      .get<RestaurantProduct[]>(this._constantsService.getAllRestaurantProducts, { headers });
   }
 
   addRestaurantProduct(payload: RestaurantProduct): Observable<RestaurantProduct> {

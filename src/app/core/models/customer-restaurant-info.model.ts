@@ -1,6 +1,7 @@
+import { SafeResourceUrl } from "@angular/platform-browser";
 import { Deserializable } from "./deserializable.model";
 
-export class RestaurantInfo implements Deserializable {
+export class CustomerRestaurantInfo implements Deserializable {
     id: string;
 
     name: string;
@@ -18,7 +19,7 @@ export class RestaurantInfo implements Deserializable {
     base64Image: string;
     base64Logo: string;
 
-    isOpen: boolean; // TODO: What is that?
+    isOpen: boolean;
     isPublic: boolean;
 
     closingDates: ClosingDate[];
@@ -60,10 +61,10 @@ export class WeekOpeningTime implements Deserializable {
     openingTimes: OpeningTime[];
 
     constructor() {
-      this.dayOfWeek=0;
-      this.restaurantId='';
-      this.openingTimes = new Array<OpeningTime>();
-      this.openingTimes.push(new OpeningTime())
+        this.dayOfWeek = 0;
+        this.restaurantId = '';
+        this.openingTimes = new Array<OpeningTime>();
+        this.openingTimes.push(new OpeningTime())
     }
 
     deserialize(input: any) {
