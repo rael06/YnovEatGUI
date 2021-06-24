@@ -64,7 +64,13 @@ export class CartComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log("result: ", result);
-      this.orderService.sendOrder().subscribe(data => console.log(data));
+      this.orderService.sendOrder().subscribe( data => {
+        if(data['id']) {
+          // TODO: SNACK
+          this.orderService.resetCart();
+        }
+      }
+      );
     });
 
     

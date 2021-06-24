@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CustomerProduct } from '../models/customer.product.model';
 import { DialogDataCart } from '../models/dialogs/dialog-data-cart.mode';
+import { BackOfficeService } from './back-office.service';
 import { ConstantsService } from './constants.service';
 
 @Injectable({
@@ -10,46 +11,76 @@ import { ConstantsService } from './constants.service';
 })
 export class OrderService {
 
-  // private dialogDataCartSubject: BehaviorSubject<DialogDataCart>;
-  // public dialogDataCart: Observable<DialogDataCart>;
-  private dialogDataCart: DialogDataCart;
-  private cart = new Cart();
-  headers: HttpHeaders;
+  private headers: HttpHeaders;
+
+  private cart: DialogDataCart; // cart
+  private order: Order; // order
+
+  private newOrdersSubject: BehaviorSubject<string>;
+  public newOrders: Observable<string>;
 
   constructor(
-    private _constantsService: ConstantsService,
-    private _httpClient: HttpClient
+    private constantsService: ConstantsService,
+    private httpClient: HttpClient,
+    private backOfficeService: BackOfficeService
   ) {
-    this.dialogDataCart = new DialogDataCart();
+    this.cart = new DialogDataCart();
+    this.order = new Order();
     this.headers = new HttpHeaders();
     this.headers.append('Content-type', 'application/json');
-    // this.dialogDataCartSubject = new BehaviorSubject<DialogDataCart>(new DialogDataCart());
-    // this.dialogDataCart = this.dialogDataCartSubject.asObservable();
+    this.newOrdersSubject = new BehaviorSubject<string>("0");
+    this.newOrders = this.newOrdersSubject.asObservable();
+    this.getNewOrders();
+    this.setFetchOrdersInterval()
   }
 
   public sendOrder() { // todo: Observable<RestaurantProduct>
-    this.cart.customerComment = this.dialogDataCart.customerComment;
-    this.cart.reservedForDateTime = this.dialogDataCart.reservedForDateTime;
-    this.cart.restaurantId = this.dialogDataCart.restaurantId;
-    return this._httpClient
-      .post<DialogDataCart>(this._constantsService.createOrder, this.cart, { headers: this.headers });
+    this.order.customerComment = this.cart.customerComment;
+    this.order.reservedForDateTime = this.cart.reservedForDateTime;
+    this.order.restaurantId = this.cart.restaurantId;
+    return this.httpClient
+      .post<DialogDataCart>(this.constantsService.createOrder, this.order, { headers: this.headers });
+  }
+
+  private getNewOrders() {
+    this.backOfficeService.getNewOrders().subscribe((data: []) => {
+      console.log(data);
+      this.newOrdersSubject.next(data.length.toString());
+    });
   }
 
   public addProductToCart(product: CustomerProduct, quantity: number, restaurantId: string) {
-    this.dialogDataCart.products.push({ product, quantity });
+    this.cart.products.push({ product, quantity });
     // console.log(restaurantId)
-    this.dialogDataCart.restaurantId = restaurantId;
-    console.log("order in service: ", this.dialogDataCart)
-    this.cart.productsId.push(product.id);
+    this.cart.restaurantId = restaurantId;
+    console.log("order in service: ", this.cart)
+    this.order.productsId.push(product.id);
   }
 
   public getProductToCart(): DialogDataCart {
-    return this.dialogDataCart;
+    return this.cart;
+  }
+
+  private setFetchOrdersInterval() {
+    setInterval(() => {
+      this.getNewOrders();
+    }, 30000);
+  }
+
+  public resetNewOrders() {
+    this.backOfficeService.getNewOrders().subscribe((data: []) => {
+      this.newOrdersSubject.next("0");
+    });
+  }
+
+  public resetCart() {
+    this.cart = new DialogDataCart();
+    this.order = new Order();
   }
 
 }
 
-export class Cart {
+export class Order {
   productsId : string[];
   customerComment: string;
   restaurantComment: string;

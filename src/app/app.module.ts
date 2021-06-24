@@ -28,6 +28,7 @@ import { CartDialogComponent } from './common/header/cart/cart-dialog/cart-dialo
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NotificationComponent } from './common/header/notification/notification.component';
+import { MatBadgeModule } from "@angular/material/badge";
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { NotificationComponent } from './common/header/notification/notification
     MatChipsModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatBadgeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

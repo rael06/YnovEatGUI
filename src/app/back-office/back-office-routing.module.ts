@@ -4,6 +4,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProductsComponent } from './products/products.component';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 
+// TODO: Add Guards to routes
 const routes: Routes = [
     { path: '', redirectTo: '/restaurant-info', pathMatch: 'full' },
     { path: 'restaurant-info', component: RestaurantInfoComponent },

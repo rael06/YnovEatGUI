@@ -65,4 +65,18 @@ export class BackOfficeService {
       .patch<RestaurantProduct>(this._constantsService.restaurantProduct, product, { headers });
   }
 
+  getNewOrders(): Observable<RestaurantProduct[]> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .get<RestaurantProduct[]>(this._constantsService.getNewOrders, { headers });
+  }
+
+  addStatusToOrders(payload): Observable<{}> {
+    const headers = new HttpHeaders();
+    headers.append('Content-type', 'application/json');
+    return this._httpClient
+      .post<{}>(this._constantsService.addStatusToOrders, payload, { headers });
+  }
+
 }

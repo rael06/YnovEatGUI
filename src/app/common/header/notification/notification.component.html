@@ -1,6 +1,6 @@
 <span *ngIf="userLoggedIn">
     <span *ngIf="userRole==='RestaurantAdmin'">
-        <button mat-icon-button>
+        <button mat-icon-button [matBadge]="numberOfNotifications" matBadgeColor="warn" (click)="goToOrders()">
             <i class="fa fa-envelope fa-3x" aria-hidden="true"></i>
         </button>
     </span>
