@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { DialogDataSignUp } from 'src/app/core/models/dialogs/dialog-data-sign-up.model';
+import { DialogDataLogIn } from 'src/app/core/models/dialogs/dialog-data-log-in.model';
 
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { BackOfficeService } from 'src/app/core/services/back-office.service';
-import { JwtService } from 'src/app/core/services/jwt.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
@@ -17,27 +18,19 @@ import { RegisterDialogComponent } from '../register-dialog/register-dialog.comp
 })
 export class ConnectComponent implements OnInit {
 
-  username: string;
-
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
+  userDataSignUp = new DialogDataSignUp();
+  userDataLogIn = new DialogDataLogIn()
 
   visibility = 'visible';
-  registerRestaurant;
+  registerRestaurant: boolean;
 
   loginData: string[];
-  signUpData: number[];
+  signUpData: string[];
 
   userLoggedIn = false;
   userRole; // TODO: USE ENUM!
 
-  restaurantId: string;
-
   constructor(
-    private _router: Router,
     public dialog: MatDialog,
     private _authService: AuthenticationService,
     private _validationService: ValidationService,
@@ -60,7 +53,7 @@ export class ConnectComponent implements OnInit {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       width: '350px',
       height: '260px',
-      data: { username: this.username, password: this.password }
+      data: this.userDataLogIn
     });
 
     this.visibility = 'hidden';
@@ -81,13 +74,7 @@ export class ConnectComponent implements OnInit {
     const dialogRef = this.dialog.open(RegisterDialogComponent, {
       width: '400px',
       height: '460px',
-      data: {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        username: this.email,
-        password: this.password,
-        phoneNumber: this.phoneNumber
-      }
+      data: this.userDataSignUp
     });
 
     this.visibility = 'hidden';
@@ -104,26 +91,51 @@ export class ConnectComponent implements OnInit {
     });
   }
 
+  openDialogCart(): void {
+    const dialogRef = this.dialog.open(RegisterDialogComponent, {
+      width: '400px',
+      height: '460px',
+      data: {
+        // products: [
+        //   id: 
+        // ]
+        // firstName: this.firstName,
+        // lastName: this.lastName,
+        // username: this.email,
+        // password: this.password,
+        // phoneNumber: this.phoneNumber
+      }
+    });
+  }
+
+  // public onLoginSubmit(): void {
+
+  //   const username = this.loginData[0];
+  //   const password = this.loginData[1];
+
+  //   this._authService.authenticateUser(username, password);
+  // }
+
   public onLoginSubmit(): void {
 
-    const username = this.loginData[0];
-    const password = this.loginData[1];
+    const userData = new DialogDataLogIn();
+    userData.password = this.loginData[0];
+    userData.username = this.loginData[1];
 
-    this._authService.authenticateUser(username, password);
+    this._authService.authenticateUser(userData);
   }
 
   onRegisterSubmit(): boolean {
 
-    const user = {
-      firstname: this.signUpData[0],
-      lastname: this.signUpData[1],
-      email: this.signUpData[2],
-      username: this.signUpData[2],
-      password: this.signUpData[3],
-      phoneNumber: this.signUpData[4]
-    };
+    const user = new DialogDataSignUp();
+    user.firstName = this.signUpData[0];
+    user.lastName = this.signUpData[1];
+    user.email = this.signUpData[2];
+    user.username = this.signUpData[2];
+    user.password = this.signUpData[3];
+    user.phoneNumber = this.signUpData[4];
 
-    this.registerRestaurant = this.signUpData[5]
+    this.registerRestaurant = Boolean(this.signUpData[5])
 
     if (!this._validationService.validateRegister(user)) {
       this._snackBar.open('Please fill in all details', 'Close');
@@ -133,6 +145,7 @@ export class ConnectComponent implements OnInit {
       this._snackBar.open('Please enter valid email', 'Close');
       return false;
     }
+
     this._authService.registerUser(user, this.registerRestaurant).subscribe({
       next: data => {
         if (data.id) {

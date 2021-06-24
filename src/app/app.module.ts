@@ -23,10 +23,7 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-//import { CardComponent } from './customer/card/card.component';
-
 import { MatChipsModule } from '@angular/material/chips';
-import { DialogProductComponent } from './customer/dialog-product/dialog-product.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +33,6 @@ import { DialogProductComponent } from './customer/dialog-product/dialog-product
     LoginDialogComponent,
     RegisterDialogComponent,
     ConnectComponent,
-    DialogProductComponent,
-    //CardComponent
   ],
   imports: [
     BrowserModule,

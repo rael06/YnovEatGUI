@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { ClosingDate, RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurantInfo';
+import { ClosingDate, RestaurantInfo, WeekOpeningTime } from 'src/app/core/models/restaurant-info.model';
 import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { DataSource } from '@angular/cdk/collections';

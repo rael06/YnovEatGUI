@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthResponse } from '../models/authResponse';
-import { RegisterResponse } from '../models/registerResponse';
+import { AuthResponse } from '../models/auth-response.model';
+import { DialogDataLogIn } from '../models/dialogs/dialog-data-log-in.model';
+import { RegisterResponse } from '../models/register-response.model';
 import { Role } from '../models/role.model';
 import { User } from '../models/user.model';
 // import { BackOfficeService } from './back-office.service';
@@ -25,23 +26,43 @@ export class AuthenticationService {
     private _constantsService: ConstantsService,
     private _jwtService: JwtService,
     private _snackBar: MatSnackBar,
-    // private _backOfficeService: BackOfficeService ?? // TODO CYCLIC DEPENDENCY ERROR
   ) {
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
   }
 
-  public authenticateUser(username: string, password: string) {
+  // public authenticateUser(username: string, password: string) {
+  //   console.log(username, password)
+  //   const headers = new HttpHeaders();
+  //   headers.append('Content-type', 'application/json');
+  //   this._httpClient.post<AuthResponse>(this._constantsService.loginUrl, { username, password}, { headers })
+  //     .subscribe({
+  //       next: data => {
+  //         if (data.token) {
+  //           this.storeUserData(data.token);
+  //           this._snackBar.open('You are now logged in', 'Close');
+  //           if (this.userValue.role === 'RestaurantAdmin') {
+  //             this._router.navigate(['/back-office/restaurant-info']);
+  //           }
+  //         }
+  //       },
+  //       error: err => {
+  //         this._snackBar.open(err.statusText, 'Close');
+  //       }
+  //     });
+  // }
+
+  public authenticateUser(userData: DialogDataLogIn) {
+    console.log(userData)
     const headers = new HttpHeaders();
     headers.append('Content-type', 'application/json');
-    this._httpClient.post<AuthResponse>(this._constantsService.loginUrl, { username, password}, { headers })
+    this._httpClient.post<AuthResponse>(this._constantsService.loginUrl, userData, { headers })
       .subscribe({
         next: data => {
           if (data.token) {
             this.storeUserData(data.token);
             this._snackBar.open('You are now logged in', 'Close');
             if (this.userValue.role === 'RestaurantAdmin') {
-              // this._backOfficeService.setRestaurantId(); // TODO
               this._router.navigate(['/back-office/restaurant-info']);
             }
           }

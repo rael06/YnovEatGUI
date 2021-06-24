@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogDataSignUp } from 'src/app/core/models/dialogDataSignUp';
+import { DialogDataSignUp } from 'src/app/core/models/dialogs/dialog-data-sign-up.model';
 
 @Component({
   selector: 'app-register-dialog',

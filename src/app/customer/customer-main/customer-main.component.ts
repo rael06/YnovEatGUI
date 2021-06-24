@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomerProduct } from 'src/app/core/models/customerProduct.model';
+import { CustomerProduct } from 'src/app/core/models/customer.product.model';
 import { CustomerService } from 'src/app/core/services/customer.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { CustomerService } from 'src/app/core/services/customer.service';
 })
 export class CustomerMainComponent implements OnInit {
 
-  // TODO: HIDE CATEGORY IF NO PRODUCT
+  // TODO: Design...
   cathegoriesPresence = [
     { name: "Starter", index: 0, present: false},
     { name: "Main", index: 1, present: false},
@@ -24,7 +24,7 @@ export class CustomerMainComponent implements OnInit {
   
   restaurantId: string;
   productList: CustomerProduct[] = [];
-  selectedProducts: CustomerProduct[];
+  // selectedProducts: CustomerProduct[];
   index = 0;
 
   constructor(
@@ -52,10 +52,8 @@ export class CustomerMainComponent implements OnInit {
               }
             )
           }
-          // this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
         )}
       );
-      console.log(this.productList)
     });
   }
 
@@ -66,7 +64,8 @@ export class CustomerMainComponent implements OnInit {
   getIndex($event) {
     console.log($event.index)
     this.index = $event.index
-    this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
+    // TODO: OUT! (CHECK FIRST)
+    // this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
   }
 
 }

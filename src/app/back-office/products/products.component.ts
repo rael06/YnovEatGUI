@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantProduct } from 'src/app/core/models/restaurantProduct.model';
+import { RestaurantProduct } from 'src/app/core/models/restaurant-product.model';
 import { BackOfficeService } from 'src/app/core/services/back-office.service';
 
 @Component({
@@ -51,6 +51,7 @@ export class ProductsComponent {
     console.log(this.newProduct)
     this.backOfficeService.addRestaurantProduct(this.newProduct).subscribe(
       () => {
+        this.newProduct = new RestaurantProduct();
         this.addingNewProduct = false;
         this.getAllRestaurantProducts()
       }
@@ -85,9 +86,7 @@ export class ProductsComponent {
   }
 
   removeImg(product: RestaurantProduct) {
-    console.log("img1: ", product.image)
     product.image = "";
-    console.log("img2: ", product.image)
   }
 
 }

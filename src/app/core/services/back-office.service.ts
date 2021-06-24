@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RestaurantInfo } from '../models/restaurantInfo';
-import { RestaurantProduct } from '../models/restaurantProduct.model';
+import { RestaurantInfo } from '../models/restaurant-info.model';
+import { RestaurantProduct } from '../models/restaurant-product.model';
 import { ConstantsService } from './constants.service';
 
 @Injectable({

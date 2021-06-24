@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerRestaurantInfo } from '../models/customer-restaurant-info.model';
-import { CustomerProduct } from '../models/customerProduct.model';
+import { CustomerProduct } from '../models/customer.product.model';
 import { ConstantsService } from './constants.service';
 
 @Injectable({
