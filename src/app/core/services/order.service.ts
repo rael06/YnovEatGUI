@@ -3,13 +3,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CustomerProduct } from '../models/customer.product.model';
 import { DialogDataCart } from '../models/dialogs/dialog-data-cart.mode';
+import { AuthenticationService } from './authentication.service';
 import { BackOfficeService } from './back-office.service';
 import { ConstantsService } from './constants.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService {
+export class OrderService implements OnInit {
 
   private headers: HttpHeaders;
 
@@ -19,20 +20,32 @@ export class OrderService {
   private newOrdersSubject: BehaviorSubject<string>;
   public newOrders: Observable<string>;
 
+  userRole;
+
   constructor(
     private constantsService: ConstantsService,
     private httpClient: HttpClient,
-    private backOfficeService: BackOfficeService
+    private backOfficeService: BackOfficeService,
+    private authService: AuthenticationService
   ) {
     this.cart = new DialogDataCart();
     this.order = new Order();
+
     this.headers = new HttpHeaders();
     this.headers.append('Content-type', 'application/json');
+    
     this.newOrdersSubject = new BehaviorSubject<string>("0");
     this.newOrders = this.newOrdersSubject.asObservable();
-    this.getNewOrders();
-    this.setFetchOrdersInterval()
+    
+    this.getAuthenticatedUser();
+    
   }
+
+  ngOnInit(): void {
+    
+  }
+
+  
 
   public sendOrder() { // todo: Observable<RestaurantProduct>
     this.order.customerComment = this.cart.customerComment;
@@ -61,7 +74,7 @@ export class OrderService {
     return this.cart;
   }
 
-  private setFetchOrdersInterval() {
+  private setGetOrdersInterval() {
     setInterval(() => {
       this.getNewOrders();
     }, 30000);
@@ -76,6 +89,22 @@ export class OrderService {
   public resetCart() {
     this.cart = new DialogDataCart();
     this.order = new Order();
+  }
+
+  private getAuthenticatedUser(): void {
+    this.authService.user.subscribe(
+      user => {
+        this.userRole = user?.role;
+        if (this.userRole == "RestaurantAdmin") {
+          this.getNewOrdersNotification();
+        }
+      }
+    )
+  }
+
+  private getNewOrdersNotification() {
+    this.getNewOrders();
+    this.setGetOrdersInterval()
   }
 
 }
