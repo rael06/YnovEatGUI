@@ -6,18 +6,13 @@ export class DialogDataCart {
     reservedForDateTime: Date;
     total: number;
     restaurantId: string;
+
+    constructor() {
+        this.products = [];
+    }
 }
 
 export class productItem {
     product: CustomerProduct;
     quantity: number;
-}
-
-// todo: Response -> 200 "Restaurant recieved your order"
-
-export class DataCart {
-    productsId: string[];
-    customerComment: string;
-    restaurantComment: string;
-    reservedForDateTime: Date;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerProduct } from 'src/app/core/models/customer.product.model';
 import { CustomerService } from 'src/app/core/services/customer.service';
+import { OrderService } from 'src/app/core/services/order.service';
 
 @Component({
   selector: 'app-customer-main',
@@ -28,9 +29,9 @@ export class CustomerMainComponent implements OnInit {
   index = 0;
 
   constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _customerService: CustomerService,
-    private _router: Router
+    private activatedRoute: ActivatedRoute,
+    private customerService: CustomerService,
+    private orderService: OrderService
   ) {
     // TODO: OUT; https://www.tektutorialshub.com/angular/angular-passing-parameters-to-route/
     // Snapshot vs observable...
@@ -38,9 +39,9 @@ export class CustomerMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._activatedRoute.paramMap.subscribe(params => {
-      // this.restaurantId = params.get('id');
-      this._customerService.getRestaurantProducts(params.get('id')).subscribe(
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.restaurantId = params.get('id');
+      this.customerService.getRestaurantProducts(params.get('id')).subscribe(
         (data: CustomerProduct[]) => {
           data.forEach(product => {
             this.productList.push(new CustomerProduct().deserialize(product));
@@ -66,6 +67,11 @@ export class CustomerMainComponent implements OnInit {
     this.index = $event.index
     // TODO: OUT! (CHECK FIRST)
     // this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
+  }
+
+  addProductToCart(product: CustomerProduct) {
+    // console.log(product)
+    this.orderService.addProductToCart(product, 1, this.restaurantId);
   }
 
 }

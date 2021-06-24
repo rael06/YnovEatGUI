@@ -6,11 +6,9 @@ import { DialogDataSignUp } from 'src/app/core/models/dialogs/dialog-data-sign-u
 import { DialogDataLogIn } from 'src/app/core/models/dialogs/dialog-data-log-in.model';
 
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
-import { DialogDataCart } from 'src/app/core/models/dialogs/dialog-data-cart.mode';
 
 @Component({
   selector: 'app-connect',

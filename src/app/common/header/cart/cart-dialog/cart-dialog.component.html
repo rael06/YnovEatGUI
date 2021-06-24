@@ -5,13 +5,15 @@
 
         <div mat-dialog-content>
 
-            <div [(ngModel)]="data.products" *ngFor="let productItem of data.products;">
+            <!-- TODO: use material table  -->
+            <div *ngFor="let productItem of data.products;" name="products">
                 <div>
                     <span>
                         {{ productItem.product.name }}
                     </span>
+                    <!-- TODO: INPUT!! -->
                     <span>
-                        quantity: {{ productItem.quantity }} [TODO: INPUT!!]
+                        quantity: {{ productItem.quantity }}
                     </span>
                     <span>
                         {{ productItem.product.price }}€
@@ -24,8 +26,13 @@
             </div>
 
             <div>
-                <input matInput [(ngModel)]="data.customerComment" 
-                name="comment" type="text" class="form-control">
+                <mat-form-field>
+                    <mat-label>Comment:</mat-label>
+                    <!-- TODO: TEXTAREA -->
+                    <input matInput [(ngModel)]="data.customerComment" name="comment"
+                    type="text" class="form-control">
+                </mat-form-field>
+                
             </div>
 
             <div>

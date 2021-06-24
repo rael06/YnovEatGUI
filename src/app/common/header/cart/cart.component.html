@@ -1,6 +1,6 @@
 <span *ngIf="userLoggedIn">
     <span *ngIf="userRole==='Customer'">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="onCartClick()">
             <i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i>
         </button>
     </span>
