@@ -44,12 +44,10 @@ import { MatCardModule } from '@angular/material/card';
     MatNativeDateModule,
     MatSelectModule,
     MatCardModule,
-    
     ReactiveFormsModule,
     FormsModule
   ],
   providers: [
-    // { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
   ],
 })

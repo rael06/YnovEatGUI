@@ -128,7 +128,6 @@
 
   <div *ngFor="let date of restaurantInfo.closingDates; let i = index">
 
-    <!-- TODO: FIX TIMEZONE ISSUE -->
     <span *ngIf="!checkIfInPast(date.closingDateTime)">
       <mat-form-field>
         <mat-label>Choose a date</mat-label>
@@ -242,3 +241,17 @@
     </button>
   </form>
 </div>
+
+<button mat-raised-button color="primary" type="button" (click)="editRestaurantInfo()" *ngIf="!editForm">
+  {{ isRestaurantCreated ? 'Edit restaurant info' : 'Create restaurant'}}
+</button>
+
+<button mat-raised-button color="primary" type="button" (click)="updateRestaurantInfo()"
+  *ngIf="editForm && isRestaurantCreated">
+  Save changes
+</button>
+
+<button mat-raised-button color="primary" type="button" (click)="cancelChanges()"
+  *ngIf="editForm && isRestaurantCreated">
+  Cancel
+</button>
