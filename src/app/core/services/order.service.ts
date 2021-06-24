@@ -3,6 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CustomerProduct } from '../models/customer.product.model';
 import { DialogDataCart } from '../models/dialogs/dialog-data-cart.mode';
+import { Role } from '../models/role.model';
 import { AuthenticationService } from './authentication.service';
 import { BackOfficeService } from './back-office.service';
 import { ConstantsService } from './constants.service';
@@ -20,7 +21,7 @@ export class OrderService implements OnInit {
   private newOrdersSubject: BehaviorSubject<string>;
   public newOrders: Observable<string>;
 
-  userRole;
+  userRole: Role;
 
   constructor(
     private constantsService: ConstantsService,
@@ -95,7 +96,7 @@ export class OrderService implements OnInit {
     this.authService.user.subscribe(
       user => {
         this.userRole = user?.role;
-        if (this.userRole == "RestaurantAdmin") {
+        if (this.userRole == Role.RestaurantAdmin) { 
           this.getNewOrdersNotification();
         }
       }

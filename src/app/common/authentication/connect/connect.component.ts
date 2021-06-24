@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+
+
 import { DialogDataSignUp } from 'src/app/core/models/dialogs/dialog-data-sign-up.model';
 import { DialogDataLogIn } from 'src/app/core/models/dialogs/dialog-data-log-in.model';
 
@@ -9,6 +10,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
+import { Role } from 'src/app/core/models/role.model';
 
 @Component({
   selector: 'app-connect',
@@ -24,7 +26,7 @@ export class ConnectComponent implements OnInit {
   visibility = 'visible';
   registerRestaurant: boolean;
   userLoggedIn = false;
-  userRole; // TODO: USE ENUM!
+  userRole: Role;
 
   constructor(
     public dialog: MatDialog,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDataCart } from 'src/app/core/models/dialogs/dialog-data-cart.mode';
+import { Role } from 'src/app/core/models/role.model';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { OrderService } from 'src/app/core/services/order.service';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
@@ -13,7 +14,7 @@ import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 export class CartComponent implements OnInit {
 
   userLoggedIn = false;
-  userRole; // TODO: USE ENUM!
+  userRole: Role;
 
   userDataCart: DialogDataCart;
 
@@ -36,18 +37,6 @@ export class CartComponent implements OnInit {
       }
     )
   }
-
-  // private getDialogDataCart(): void {
-  //   console.log("hello from cart! :)")
-  //   this.orderService.dialogDataCart.subscribe(
-      
-  //     dialogDataCart => {
-  //       console.log("hello from subscription")
-  //       this.userDataCart = dialogDataCart;
-  //     }
-  //   )
-  // }
-
 
   onCartClick() {
     this.userDataCart = this.orderService.getProductToCart()
