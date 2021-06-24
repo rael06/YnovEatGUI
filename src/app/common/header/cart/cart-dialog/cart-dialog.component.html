@@ -1,0 +1,49 @@
+<div class="modal">
+    <form>
+
+        <h1 mat-dialog-title>Cart</h1>
+
+        <div mat-dialog-content>
+
+            <div [(ngModel)]="data.products" *ngFor="let productItem of data.products;">
+                <div>
+                    <span>
+                        {{ productItem.product.name }}
+                    </span>
+                    <span>
+                        quantity: {{ productItem.quantity }} [TODO: INPUT!!]
+                    </span>
+                    <span>
+                        {{ productItem.product.price }}€
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                TOTAL: ...
+            </div>
+
+            <div>
+                <input matInput [(ngModel)]="data.customerComment" 
+                name="comment" type="text" class="form-control">
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>Choose time</mat-label>
+                    <input matInput [matDatepicker]="picker"
+                        [(ngModel)]="data.reservedForDateTime" name="reservedForDateTime">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-button (click)="onNoClick()">Return</button>
+            <button mat-button [mat-dialog-close]="[data]" cdkFocusInitial>Order</button>
+        </div>
+
+    </form>
+</div>

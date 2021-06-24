@@ -1,9 +1,8 @@
 <span [ngClass]="visibility">
     <span *ngIf="userLoggedIn" >
         <span *ngIf="userRole==='Customer'">
-            <i class="fa fa-user headerIcon" aria-hidden="true"></i>
-            <button mat-icon-button class="headerIcon">
-                <mat-icon class="icon" inline=true>shopping_cart</mat-icon>
+            <button mat-icon-button>
+                <i class="fa fa-user fa-3x" aria-hidden="true"></i>
             </button>
         </span>
         <button mat-raised-button (click)="logOut()">Log out</button>

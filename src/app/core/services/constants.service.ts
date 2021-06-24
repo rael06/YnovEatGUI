@@ -21,11 +21,13 @@ export class ConstantsService {
   getAllRestaurantProducts = `${this.baseUrl}/api/RestaurantProduct/get-all`;
   restaurantProduct = `${this.baseUrl}/api/RestaurantProduct`;
 
-  // Customer Products
+  // Restaurant Orders
+  getNewOrders = `${this.baseUrl}/api/Order/get-new-orders-ids`;
+
+  // CUSTOMER
   getRestaurantProducts = `${this.baseUrl}/api/customerProduct/get-all`;
-
-  // Customer Restaurants
   getAllRestaurants = `${this.baseUrl}/api/customer/get-all-restaurants`;
+  createOrder = `${this.baseUrl}/api/Order/create`;
 
-
+  
 }

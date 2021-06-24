@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { DialogDataLogIn } from 'src/app/core/models/dialogs/dialog-data-log-in.model';
 
 @Component({

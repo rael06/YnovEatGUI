@@ -10,6 +10,7 @@ import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { ValidationService } from 'src/app/core/services/validation.service';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
+import { DialogDataCart } from 'src/app/core/models/dialogs/dialog-data-cart.mode';
 
 @Component({
   selector: 'app-connect',
@@ -18,34 +19,24 @@ import { RegisterDialogComponent } from '../register-dialog/register-dialog.comp
 })
 export class ConnectComponent implements OnInit {
 
+  // TODO: decouple components
   userDataSignUp = new DialogDataSignUp();
-  userDataLogIn = new DialogDataLogIn()
+  userDataLogIn = new DialogDataLogIn();
 
   visibility = 'visible';
   registerRestaurant: boolean;
-
-  loginData: string[];
-  signUpData: string[];
-
   userLoggedIn = false;
   userRole; // TODO: USE ENUM!
 
   constructor(
     public dialog: MatDialog,
-    private _authService: AuthenticationService,
-    private _validationService: ValidationService,
-    private _snackBar: MatSnackBar,
+    private validationService: ValidationService,
+    private snackBar: MatSnackBar,
     private authService: AuthenticationService,
-    private _backOfficeService: BackOfficeService,
   ) { }
 
   ngOnInit(): void {
-    this.authService.user.subscribe( 
-      user => {
-        this.userLoggedIn = user ? true : false;
-        this.userRole = user?.role;
-      }
-    )
+    this.getAuthenticatedUser();
   }
 
   openDialogLogIn(): void {
@@ -59,7 +50,6 @@ export class ConnectComponent implements OnInit {
     this.visibility = 'hidden';
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loginData = result;
       this.visibility = 'visible';
       if (result && result[0] == 'register') { // switch to register form
         this.openDialogSignUp();
@@ -80,8 +70,8 @@ export class ConnectComponent implements OnInit {
     this.visibility = 'hidden';
 
     dialogRef.afterClosed().subscribe(result => {
-      this.signUpData = result;
       this.visibility = 'visible';
+      // TODO: EXTRACT AND PUT ELSEWHERE
       if (result) {
         const success = this.onRegisterSubmit();
         if (!success) {
@@ -91,72 +81,35 @@ export class ConnectComponent implements OnInit {
     });
   }
 
-  openDialogCart(): void {
-    const dialogRef = this.dialog.open(RegisterDialogComponent, {
-      width: '400px',
-      height: '460px',
-      data: {
-        // products: [
-        //   id: 
-        // ]
-        // firstName: this.firstName,
-        // lastName: this.lastName,
-        // username: this.email,
-        // password: this.password,
-        // phoneNumber: this.phoneNumber
-      }
-    });
+  private onLoginSubmit(): void {
+    this.authService.authenticateUser(this.userDataLogIn);
   }
 
-  // public onLoginSubmit(): void {
+  private onRegisterSubmit(): boolean {
 
-  //   const username = this.loginData[0];
-  //   const password = this.loginData[1];
+    this.userDataSignUp.username = this.userDataSignUp.email;
 
-  //   this._authService.authenticateUser(username, password);
-  // }
-
-  public onLoginSubmit(): void {
-
-    const userData = new DialogDataLogIn();
-    userData.password = this.loginData[0];
-    userData.username = this.loginData[1];
-
-    this._authService.authenticateUser(userData);
-  }
-
-  onRegisterSubmit(): boolean {
-
-    const user = new DialogDataSignUp();
-    user.firstName = this.signUpData[0];
-    user.lastName = this.signUpData[1];
-    user.email = this.signUpData[2];
-    user.username = this.signUpData[2];
-    user.password = this.signUpData[3];
-    user.phoneNumber = this.signUpData[4];
-
-    this.registerRestaurant = Boolean(this.signUpData[5])
-
-    if (!this._validationService.validateRegister(user)) {
-      this._snackBar.open('Please fill in all details', 'Close');
+    if (!this.validationService.validateRegister(this.userDataSignUp)) {
+      this.snackBar.open('Please fill in all details', 'Close');
       return false;
     }
-    if (!this._validationService.validateEmail(user.email)) {
-      this._snackBar.open('Please enter valid email', 'Close');
+    if (!this.validationService.validateEmail(this.userDataSignUp.email)) {
+      this.snackBar.open('Please enter valid email', 'Close');
       return false;
     }
 
-    this._authService.registerUser(user, this.registerRestaurant).subscribe({
+    // TODO: refactor! ...?
+    this.authService.registerUser(this.userDataSignUp, this.userDataSignUp.registerRestaurant).subscribe({
       next: data => {
         if (data.id) {
-          this._snackBar.open('You are now registered and can login', 'Close');
+          this.snackBar.open('You are now registered and can login', 'Close');
           this.openDialogLogIn();
         }
       },
       error: err => {
-        // TODO: better error handling
+        // TODO: better error handling ??
         let errorMsg = err.error.message || err.error.title || "Unknown error"
-        this._snackBar.open(errorMsg, 'Close')
+        this.snackBar.open(errorMsg, 'Close')
         this.openDialogSignUp();
       }
     });
@@ -164,8 +117,17 @@ export class ConnectComponent implements OnInit {
   }
 
   public logOut() {
-    this._authService.logout();
-    this._snackBar.open('You are now logged out', 'Close')
+    this.authService.logout();
+    this.snackBar.open('You are now logged out', 'Close')
+  }
+
+  private getAuthenticatedUser(): void {
+    this.authService.user.subscribe(
+      user => {
+        this.userLoggedIn = user ? true : false;
+        this.userRole = user?.role;
+      }
+    )
   }
 
 }

@@ -20,10 +20,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 
-
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { CartComponent } from './common/header/cart/cart.component';
+import { CartDialogComponent } from './common/header/cart/cart-dialog/cart-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NotificationComponent } from './common/header/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,9 @@ import { MatChipsModule } from '@angular/material/chips';
     LoginDialogComponent,
     RegisterDialogComponent,
     ConnectComponent,
+    CartComponent,
+    CartDialogComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,10 +57,11 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSnackBarModule,
     MatCardModule,
     MatIconModule,
-
     MatChipsModule,
     MatChipsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

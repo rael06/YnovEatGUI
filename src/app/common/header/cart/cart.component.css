@@ -1,0 +1,7 @@
+.hidden {
+  visibility: hidden;
+}
+
+i, button {
+  margin: 10px;
+}
