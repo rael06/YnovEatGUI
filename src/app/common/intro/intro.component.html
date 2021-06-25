@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div *ngFor="let restaurant of restaurants; let i = index">
     <a [routerLink]="['/customer/restaurant', restaurant.id]">
-      <!-- TODO: REMOVE NGIF => restaurant has to have photo! -->
+      <!-- TODO: REMOVE NGIF => restaurant has to have photo -->
       <mat-card class="example-card" *ngIf="restaurant.base64Image"> 
         <mat-card-header>
           <mat-card-title>{{ restaurant.name }}</mat-card-title>

@@ -24,15 +24,6 @@ export class CustomerRestaurantInfo implements Deserializable {
 
     closingDates: ClosingDate[];
     weekOpeningTimes: WeekOpeningTime[];
-    // TODO: We don't have categories anymore (for now)
-    restaurantCategories: RestaurantCategory[];
-    // TODO: Employees => seperated route, not a part of form
-    restaurantUsers: [
-        {
-            userId: string,
-            type: string
-        }
-    ]
 
     deserialize(input: any) {
         Object.assign(this, input);
@@ -43,7 +34,6 @@ export class CustomerRestaurantInfo implements Deserializable {
 export class ClosingDate implements Deserializable {
     closingDateTime: Date;
 
-    // TODO: OUT?
     constructor() {
         this.closingDateTime = new Date();
     }

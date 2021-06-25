@@ -72,7 +72,6 @@ export class AuthenticationService {
 
     const user = new User();
     user.username = userToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-    // TODO: use enum
     user.role = userToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     user.token = token;
 

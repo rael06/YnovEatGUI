@@ -10,27 +10,26 @@ import { ConstantsService } from './constants.service';
 })
 export class CustomerService {
 
+  private headers: HttpHeaders;
+
   constructor(
     private _constantsService: ConstantsService,
     private _httpClient: HttpClient
-  ) { }
-
-  // TODO: MOVE TO CUSTOMER SERVICE, SAME FOR RESTAURANT AND OTHERS
+  ) {
+    this.headers = new HttpHeaders();
+    this.headers.append('Content-type', 'application/json');
+  }
 
   getAllRestaurants(): Observable<CustomerRestaurantInfo[]> {
-    const headers = new HttpHeaders();
-    headers.append('Content-type', 'application/json');
     const url = `${this._constantsService.getAllRestaurants}`
     return this._httpClient
-      .get<CustomerRestaurantInfo[]>(url, { headers });
+      .get<CustomerRestaurantInfo[]>(url, { headers: this.headers });
   }
 
   getRestaurantProducts(restaurantId: string): Observable<CustomerProduct[]> {
-    const headers = new HttpHeaders();
-    headers.append('Content-type', 'application/json');
     const url = `${this._constantsService.getRestaurantProducts}/${restaurantId}`;
     return this._httpClient
-      .get<CustomerProduct[]>(url, { headers });
+      .get<CustomerProduct[]>(url, { headers: this.headers });
   }
 
   

@@ -1,4 +1,44 @@
 <app-tabs></app-tabs>
 
-<p>orders works!</p>
-<p>YE-21</p>
+<div style="display: flex; justify-content: space-evenly">
+    <button mat-button type="button" (click)="displayNew()">New Orders</button>
+    <button mat-button type="button" (click)="dispayInPreparation()">In preparation</button>
+    <button mat-button type="button" (click)="displayReady()">Ready</button>
+    <button mat-button type="button" (click)="displayDelivered()">Delivered</button>
+    <button mat-button type="button" (click)="displayOther()">Other</button>
+</div><br><br>
+
+<table>
+
+        <tr>
+            <th>Time</th>
+            <th>Products</th>
+            <th>Customer Comment</th>
+            <th>Restaurant Comment</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Accept</th>
+            <th>Reject</th>
+        </tr>
+
+    
+    <ng-container *ngFor="let order of restaurantOrders; let i = index">
+        
+        <tr *ngIf="statues[order.currentOrderStatus.status]">
+            <td>{{ order.reservedForDateTime | date: "dd/MM/yy hh:mm" }}</td>
+            <td *ngFor="let product of order.customerProducts" style="display: flex; flex-direction: column;">
+                <div>{{ product.name }}</div>
+            </td>
+            <td>{{ order.customerComment }}</td>
+            <td>{{ order.restaurantComment }}</td>
+            <td>{{ order.totalPrice }}€</td>
+            <td>{{ order.currentOrderStatus.status }}</td>
+            <td><button (click)="processOrder(order.id, order.currentOrderStatus.status)"
+                ><i class="fa fa-check" aria-hidden="true"></i></button></td>
+            <td><button (click)="processOrder(order.id, 6)"
+                ><i class="fa fa-times" aria-hidden="true"></i></button></td>
+        </tr>
+        
+    </ng-container>
+    
+</table>

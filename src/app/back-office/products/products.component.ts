@@ -34,7 +34,6 @@ export class ProductsComponent {
         if (this.restaurantProducts.length == 0) {
           this.addingNewProduct = true;
         }
-        console.log("products: ", this.restaurantProducts);
       }
     )
   }
@@ -48,7 +47,6 @@ export class ProductsComponent {
   }
 
   addProduct() {
-    console.log(this.newProduct)
     this.backOfficeService.addRestaurantProduct(this.newProduct).subscribe(
       () => {
         this.newProduct = new RestaurantProduct();
@@ -62,7 +60,6 @@ export class ProductsComponent {
   deleteProduct(productId: string) {
     this.backOfficeService.deleteRestaurantProduct(productId).subscribe(
       data => {
-        console.log(data);
         this.getAllRestaurantProducts();
       }
     )
@@ -71,7 +68,6 @@ export class ProductsComponent {
   updateProduct(product: RestaurantProduct, index: number) {
     this.backOfficeService.updateRestaurantProduct(product).subscribe(
       data => {
-        console.log(data)
         this.getAllRestaurantProducts();
         this.editFormArray[index] = false; 
       }

@@ -1,0 +1,21 @@
+mat-card {
+    margin: 5px;
+    background-color: #ebebeb;
+}
+
+mat-divider {
+    margin: 10px;
+}
+
+tr {
+    background-color: #ebebeb;
+}
+
+td {
+    padding: 10px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}

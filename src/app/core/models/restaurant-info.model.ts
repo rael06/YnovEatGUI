@@ -18,13 +18,11 @@ export class RestaurantInfo implements Deserializable {
     base64Image: string;
     base64Logo: string;
 
-    isOpen: boolean; // TODO: What is that?
+    isOpen: boolean;
     isPublic: boolean;
 
     closingDates: ClosingDate[];
     weekOpeningTimes: WeekOpeningTime[];
-    // TODO: We don't have categories anymore (for now)
-    restaurantCategories: RestaurantCategory[];
     // TODO: Employees => seperated route, not a part of form
     restaurantUsers: [
         {
@@ -42,7 +40,6 @@ export class RestaurantInfo implements Deserializable {
 export class ClosingDate implements Deserializable {
     closingDateTime: Date;
 
-    // TODO: OUT?
     constructor() {
         this.closingDateTime = new Date();
     }

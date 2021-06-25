@@ -98,7 +98,7 @@ export class ConnectComponent implements OnInit {
       return false;
     }
 
-    // TODO: refactor! ...?
+    // TODO: refactor
     this.authService.registerUser(this.userDataSignUp, this.userDataSignUp.registerRestaurant).subscribe({
       next: data => {
         if (data.id) {

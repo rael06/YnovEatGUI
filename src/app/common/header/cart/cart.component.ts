@@ -26,7 +26,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAuthenticatedUser();
-    // this.getDialogDataCart();
   }
 
   private getAuthenticatedUser(): void {
@@ -41,28 +40,25 @@ export class CartComponent implements OnInit {
   onCartClick() {
     this.userDataCart = this.orderService.getProductToCart()
     this.openDialogCart();
-    console.log("cart in cart: ", this.userDataCart)
   }
 
   openDialogCart(): void {
     const dialogRef = this.dialog.open(CartDialogComponent, {
       width: '400px',
-      height: '460px',
+      height: '350px',
       data: this.userDataCart
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result: ", result);
       this.orderService.sendOrder().subscribe( data => {
         if(data['id']) {
-          // TODO: SNACK
+          // TODO: SNACK with result info
           this.orderService.resetCart();
         }
       }
       );
     });
 
-    
   }
 
 }

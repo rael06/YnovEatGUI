@@ -1,5 +1,3 @@
-<!-- https://material.angular.io/components/button-toggle/overview -->
-
 <div style="display: flex; justify-content: space-evenly">
   <span *ngFor="let cathegory of cathegoriesPresence" style="flex-direction: row; ">
     <button mat-button type="button" *ngIf="cathegory.present" (click)="setIndex(cathegory.index)">{{ cathegory.name }}</button>

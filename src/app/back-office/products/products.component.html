@@ -15,14 +15,6 @@
 
         <!-- TODO: DISABLED IF RESTAURANT NOT CREATED, OR MAYBE IN GUARD -->
 
-        <!-- <span *ngIf="newProduct.image">
-            <label>Photo</label><br>
-            <img [src]="newProduct.image" alt="Product photo" />
-            <ng-template #noPhoto>
-                        <p *ngIf="!editForm">No photo yet</p>
-                    </ng-template>
-        </span> -->
-
         <div>
             <label>Photo</label><br>
             <img *ngIf="newProduct.image; else noPhoto" [src]="newProduct.image"
@@ -99,14 +91,6 @@
             <span style="display: flex; flex-direction: row;">
 
                 <div>
-
-                    <!-- <span *ngIf="product.image">
-                        <label>Photo</label><br>
-                        <img [src]="product.image" alt="Product image" />
-                        <ng-template #noPhoto>
-                                                    <p *ngIf="!editForm">No photo yet</p>
-                                                </ng-template>
-                    </span> -->
 
                     <div>
                         <label>Photo</label><br>

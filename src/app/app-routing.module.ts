@@ -4,7 +4,6 @@ import { IntroComponent } from './common/intro/intro.component';
 
 
 const routes: Routes = [
-  // TODO: OUT; https://angular.io/api/router/Route
   { path: '', redirectTo: '/intro', pathMatch: 'full' },
   { path: 'intro', component: IntroComponent },
   {

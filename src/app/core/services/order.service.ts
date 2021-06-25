@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CustomerProduct } from '../models/customer.product.model';
 import { DialogDataCart } from '../models/dialogs/dialog-data-cart.mode';
@@ -11,7 +11,8 @@ import { ConstantsService } from './constants.service';
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService implements OnInit {
+// TODO: Split into Customer / Back office service
+export class OrderService {
 
   private headers: HttpHeaders;
 
@@ -42,13 +43,7 @@ export class OrderService implements OnInit {
     
   }
 
-  ngOnInit(): void {
-    
-  }
-
-  
-
-  public sendOrder() { // todo: Observable<RestaurantProduct>
+  public sendOrder() { // TODO: Observable<RestaurantProduct>
     this.order.customerComment = this.cart.customerComment;
     this.order.reservedForDateTime = this.cart.reservedForDateTime;
     this.order.restaurantId = this.cart.restaurantId;
@@ -65,9 +60,7 @@ export class OrderService implements OnInit {
 
   public addProductToCart(product: CustomerProduct, quantity: number, restaurantId: string) {
     this.cart.products.push({ product, quantity });
-    // console.log(restaurantId)
     this.cart.restaurantId = restaurantId;
-    console.log("order in service: ", this.cart)
     this.order.productsId.push(product.id);
   }
 

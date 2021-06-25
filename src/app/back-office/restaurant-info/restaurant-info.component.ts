@@ -80,8 +80,6 @@ export class RestaurantInfoComponent implements OnInit {
     return noDateInFuture;
   }
 
-  // button handlers
-
   editRestaurantInfo() {
     this.editForm = !this.editForm;
   }
@@ -92,8 +90,6 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   addClosingDate() {
-    // let dateToAdd = new ClosingDate();
-    // dateToAdd.closingDateTime = new Date(date);
     this.restaurantInfo.closingDates.push(new ClosingDate());
   }
 

@@ -7,23 +7,24 @@
 
             <!-- TODO: use material table  -->
             <div *ngFor="let productItem of data.products;" name="products">
-                <div>
+                <div style="display: flex; justify-content: space-between">
                     <span>
                         {{ productItem.product.name }}
                     </span>
                     <!-- TODO: INPUT!! -->
-                    <span>
+                    <!-- <span>
                         quantity: {{ productItem.quantity }}
-                    </span>
+                    </span> -->
                     <span>
-                        {{ productItem.product.price }}€
+                        {{ productItem.product.price }}€ x {{ productItem.quantity }}
                     </span>
                 </div>
             </div>
 
-            <div>
+            <!-- TODO: total -->
+            <!-- <div>
                 TOTAL: ...
-            </div>
+            </div> -->
 
             <div>
                 <mat-form-field>

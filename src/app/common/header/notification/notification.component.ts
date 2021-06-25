@@ -3,9 +3,6 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/core/models/role.model';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { OrderService } from 'src/app/core/services/order.service';
-// import { BackOfficeService } from "../../../core/services/back-office.service";
-// import { Router } from "@angular/router";
-// import { OrderService } from "../../../core/services/order.service";
 
 @Component({
   selector: 'app-notification',
@@ -17,8 +14,6 @@ export class NotificationComponent implements OnInit {
   public numberOfNotifications: string = "0";
   userLoggedIn = false;
   userRole: Role;
-
-  // https://material.angular.io/components/badge/overview
 
   constructor(
     private authService: AuthenticationService,

@@ -22,7 +22,8 @@ export class ConstantsService {
   restaurantProduct = `${this.baseUrl}/api/RestaurantProduct`;
 
   // Restaurant Orders
-  getNewOrders = `${this.baseUrl}/api/Order/get-new-orders-ids`;
+  getNewOrdersNotification = `${this.baseUrl}/api/Order/get-new-orders-ids`;
+  getRestaurantOrders = `${this.baseUrl}/api/Restaurant/get-today-orders`;
   addStatusToOrders = `${this.baseUrl}/api/Order/add-status-to-orders`;
 
   // CUSTOMER

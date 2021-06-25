@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { BackOfficeRoutingModule } from './back-office-routing.module';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { ProductsComponent } from './products/products.component';
@@ -45,10 +45,11 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     MatCardModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+    DatePipe
   ],
 })
 export class BackOfficeModule { }
