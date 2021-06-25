@@ -25,7 +25,6 @@ export class CustomerMainComponent implements OnInit {
   
   restaurantId: string;
   productList: CustomerProduct[] = [];
-  // selectedProducts: CustomerProduct[];
   index = 0;
 
   constructor(
@@ -33,9 +32,6 @@ export class CustomerMainComponent implements OnInit {
     private customerService: CustomerService,
     private orderService: OrderService
   ) {
-    // TODO: OUT; https://www.tektutorialshub.com/angular/angular-passing-parameters-to-route/
-    // Snapshot vs observable...
-    // this.restaurantId = this._activatedRoute.snapshot.paramMap.get("id");
   }
 
   ngOnInit(): void {
@@ -63,14 +59,10 @@ export class CustomerMainComponent implements OnInit {
   }
 
   getIndex($event) {
-    console.log($event.index)
     this.index = $event.index
-    // TODO: OUT! (CHECK FIRST)
-    // this.selectedProducts = this.productList.filter(product => product.productFamily == this.index);
   }
 
   addProductToCart(product: CustomerProduct) {
-    // console.log(product)
     this.orderService.addProductToCart(product, 1, this.restaurantId);
   }
 

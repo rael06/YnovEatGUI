@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/core/models/role.model';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { BackOfficeService } from 'src/app/core/services/back-office.service';
 import { OrderService } from 'src/app/core/services/order.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class NotificationComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private orderService: OrderService,
-    private _router: Router
+    private backOfficeService: BackOfficeService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +40,8 @@ export class NotificationComponent implements OnInit {
   }
 
   public goToOrders() {
-    this._router.navigate(['/back-office/orders']);
+    this.backOfficeService.getAllRestaurantOrders().subscribe();
+    this.router.navigate(['/back-office/orders']);
   }
 
 }
