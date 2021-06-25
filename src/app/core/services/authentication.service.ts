@@ -63,8 +63,8 @@ export class AuthenticationService {
     return this.userSubject.value;
   }
 
-  public get UserRole(): Role {
-    return this.userSubject.value.role;
+  public isUserRestaurantOwner(): boolean {
+    return this.userSubject.value.role == Role.RestaurantAdmin;
   }
 
   private storeUserData(token: string) {

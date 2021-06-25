@@ -53,7 +53,6 @@ export class OrderService {
 
   private getNewOrders() {
     this.backOfficeService.getNewOrders().subscribe((data: []) => {
-      console.log(data);
       this.newOrdersSubject.next(data.length.toString());
     });
   }
